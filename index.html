@@ -1,1 +1,437 @@
 
+# Создадим HTML файл с современным дизайном
+html_content = """<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FunDreamer - Game Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a0a2e 50%, #0a0a0f 100%);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(120, 0, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(0, 255, 255, 0.05) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Grid overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(120, 0, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(120, 0, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Profile section */
+        .profile {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7800ff, #ff0080);
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            box-shadow: 0 0 40px rgba(120, 0, 255, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar::before {
+            content: '🎮';
+            z-index: 2;
+        }
+
+        .avatar::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 40px rgba(120, 0, 255, 0.5);
+            }
+            to {
+                box-shadow: 0 0 60px rgba(255, 0, 128, 0.7);
+            }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #7800ff, #ff0080, #00ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: gradientShift 3s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #b8b8d0;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: #8888aa;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Social links grid */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 900px;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .social-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(120, 0, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .social-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(120, 0, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .social-card:hover::before {
+            left: 100%;
+        }
+
+        .social-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(120, 0, 255, 0.6);
+            box-shadow: 0 10px 40px rgba(120, 0, 255, 0.3);
+        }
+
+        .social-icon {
+            font-size: 2.5rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .twitch .social-icon {
+            background: linear-gradient(135deg, #9146ff, #6441a5);
+        }
+
+        .itchio .social-icon {
+            background: linear-gradient(135deg, #fa5c5c, #ff6600);
+        }
+
+        .telegram .social-icon {
+            background: linear-gradient(135deg, #0088cc, #00aced);
+        }
+
+        .donate .social-icon {
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+        }
+
+        .boosty .social-icon {
+            background: linear-gradient(135deg, #f47f20, #ff8c00);
+        }
+
+        .social-info {
+            flex: 1;
+        }
+
+        .social-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .social-desc {
+            font-size: 0.95rem;
+            color: #8888aa;
+        }
+
+        .arrow {
+            font-size: 1.5rem;
+            color: #7800ff;
+            transition: transform 0.3s ease;
+        }
+
+        .social-card:hover .arrow {
+            transform: translateX(5px);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            text-align: center;
+            color: #555577;
+            font-size: 0.9rem;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .footer a {
+            color: #7800ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #ff0080;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .social-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .avatar {
+                width: 120px;
+                height: 120px;
+                font-size: 50px;
+            }
+        }
+
+        /* Particle effect */
+        .particle {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: rgba(120, 0, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 10s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Particles -->
+    <script>
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            document.body.appendChild(particle);
+        }
+    </script>
+
+    <div class="container">
+        <div class="profile">
+            <div class="avatar"></div>
+            <h1>FunDreamer</h1>
+            <p class="subtitle">Game Developer & Creator</p>
+            <p class="description">
+                Разработчик игр на Unity | Python разработчик | Создатель приложений на PyQt6<br>
+                Киберпанк • Хоррор • Рогалики
+            </p>
+        </div>
+
+        <div class="social-grid">
+            <a href="https://www.twitch.tv/fundreamer365/about" target="_blank" class="social-card twitch">
+                <div class="social-icon">📺</div>
+                <div class="social-info">
+                    <div class="social-name">Twitch</div>
+                    <div class="social-desc">Стримы и геймплей</div>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+
+            <a href="https://fundreamer.itch.io/" target="_blank" class="social-card itchio">
+                <div class="social-icon">🎮</div>
+                <div class="social-info">
+                    <div class="social-name">Itch.io</div>
+                    <div class="social-desc">Мои игры и проекты</div>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+
+            <a href="https://t.me/FND_Squad" target="_blank" class="social-card telegram">
+                <div class="social-icon">✈️</div>
+                <div class="social-info">
+                    <div class="social-name">Telegram</div>
+                    <div class="social-desc">Канал FND_Squad</div>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+
+            <a href="https://www.donationalerts.com/r/fundreamer365" target="_blank" class="social-card donate">
+                <div class="social-icon">💰</div>
+                <div class="social-info">
+                    <div class="social-name">DonationAlerts</div>
+                    <div class="social-desc">Поддержать проект</div>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+
+            <a href="https://boosty.to/fundreamer365" target="_blank" class="social-card boosty">
+                <div class="social-icon">⭐</div>
+                <div class="social-info">
+                    <div class="social-name">Boosty</div>
+                    <div class="social-desc">Эксклюзивный контент</div>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>Made with 💜 by <a href="https://t.me/FND_Squad">FunDreamer</a></p>
+        </div>
+    </div>
+</body>
+</html>"""
+
+# Сохраняем файл
+with open('/home/qwen/fundreamer_portfolio.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
