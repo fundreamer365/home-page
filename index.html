@@ -32,6 +32,7 @@
             --text-main: #ffffff;
             --text-muted: #a0a0b0;
             --live-red: #e91916;
+            --tg-blue: #2AABEE;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -42,40 +43,109 @@
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             position: relative;
         }
 
-        /* --- Фон и эффекты --- */
-        .background-glow {
-            position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); width: 100vw; height: 100vh;
-            background: radial-gradient(circle at center, rgba(157, 78, 221, 0.15) 0%, transparent 70%);
-            z-index: -2; pointer-events: none;
+        /* --- НОВЫЙ АНИМИРОВАННЫЙ ФОН --- */
+        .cyber-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            background: linear-gradient(to bottom, #050507 0%, #0a0a12 100%);
+            overflow: hidden;
+        }
+
+        .data-stream {
+            position: absolute; top: -100%; width: 1px; height: 50%;
+            background: linear-gradient(to bottom, transparent, rgba(157, 78, 221, 0.3), transparent);
+            animation: stream-fall linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes stream-fall {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(200%); }
         }
 
         .grid-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
             background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px; z-index: -1;
-            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
-            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
         }
 
-        /* --- Контейнер --- */
-        .container {
-            width: 100%; max-width: 600px; padding: 40px 20px; z-index: 1; text-align: center;
+        /* --- ОСНОВНОЙ ЛЕЙАУТ --- */
+        .main-wrapper {
+            display: flex; justify-content: center; align-items: flex-start;
+            gap: 40px; padding: 40px 20px; max-width: 1400px; margin: 0 auto;
+            min-height: 100vh;
         }
 
-        /* --- Профиль --- */
+        .content-area {
+            flex: 1; max-width: 600px; text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        /* --- GLITCH ЭФФЕКТ ДЛЯ НИКА --- */
+        .glitch-wrapper { position: relative; display: inline-block; margin-bottom: 10px; }
+        
+        .glitch-text {
+            font-family: 'Rajdhani', sans-serif; font-size: 3.5rem; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase; position: relative;
+            color: var(--text-main); cursor: default;
+        }
+
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text); position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; opacity: 0; pointer-events: none;
+        }
+
+        .glitch-wrapper:hover .glitch-text {
+            animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+            color: var(--primary);
+        }
+
+        .glitch-wrapper:hover .glitch-text::before {
+            opacity: 0.8; color: var(--secondary); z-index: -1;
+            animation: glitch-anim-1 0.4s infinite linear alternate-reverse;
+        }
+
+        .glitch-wrapper:hover .glitch-text::after {
+            opacity: 0.8; color: var(--accent); z-index: -2;
+            animation: glitch-anim-2 0.4s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-skew {
+            0% { transform: skew(0deg); }
+            20% { transform: skew(-2deg); }
+            40% { transform: skew(2deg); }
+            60% { transform: skew(-1deg); }
+            80% { transform: skew(1deg); }
+            100% { transform: skew(0deg); }
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 0); }
+            20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, 0); }
+            40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 0); }
+            60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, 0); }
+            80% { clip-path: inset(10% 0 70% 0); transform: translate(-2px, 0); }
+            100% { clip-path: inset(30% 0 50% 0); transform: translate(2px, 0); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, 0); }
+            20% { clip-path: inset(30% 0 20% 0); transform: translate(-2px, 0); }
+            40% { clip-path: inset(70% 0 10% 0); transform: translate(2px, 0); }
+            60% { clip-path: inset(20% 0 50% 0); transform: translate(-2px, 0); }
+            80% { clip-path: inset(50% 0 30% 0); transform: translate(2px, 0); }
+            100% { clip-path: inset(5% 0 80% 0); transform: translate(-2px, 0); }
+        }
+
+        /* --- ПРОФИЛЬ И КАРТОЧКИ (Без изменений в логике, только стили) --- */
         .profile-section { margin-bottom: 50px; animation: fadeInDown 0.8s ease-out; }
-
         .avatar-wrapper { position: relative; width: 120px; height: 120px; margin: 0 auto 25px; }
-
         .avatar {
             width: 100%; height: 100%; border-radius: 50%;
             background: linear-gradient(135deg, #2a2a35, #1a1a20);
@@ -84,27 +154,16 @@
             box-shadow: 0 0 30px rgba(157, 78, 221, 0.3);
             position: relative; z-index: 2; overflow: hidden;
         }
-        
         .avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-        
         .avatar i {
             background: linear-gradient(to bottom, #fff, #aaa);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-
         .avatar-ring {
             position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
             border-radius: 50%; border: 2px solid transparent;
             border-top-color: var(--primary); border-right-color: var(--secondary);
             animation: spin 4s linear infinite;
-        }
-
-        h1 {
-            font-family: 'Rajdhani', sans-serif; font-size: 3rem; font-weight: 700;
-            letter-spacing: 2px; margin-bottom: 10px;
-            background: linear-gradient(to right, #fff, #b8b8d0);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
         }
 
         .role-badge {
@@ -113,15 +172,11 @@
             border-radius: 20px; color: var(--primary); font-size: 0.9rem; font-weight: 500;
             margin-bottom: 20px; backdrop-filter: blur(5px);
         }
-
         .bio { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; max-width: 450px; margin: 0 auto; }
-
         .tech-stack { margin-top: 15px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
         .tech-tag { font-size: 0.8rem; color: #666; font-family: monospace; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 6px; }
 
-        /* --- Ссылки (Карточки) --- */
-        .links-container { display: flex; flex-direction: column; gap: 16px; }
-
+        .links-container { display: flex; flex-direction: column; gap: 16px; width: 100%; }
         .link-card {
             position: relative; display: flex; align-items: center;
             padding: 18px 24px; background: var(--card-bg);
@@ -131,7 +186,6 @@
             backdrop-filter: blur(10px); overflow: hidden;
             animation: fadeInUp 0.5s ease-out backwards;
         }
-
         .link-card:nth-child(1) { animation-delay: 0.1s; }
         .link-card:nth-child(2) { animation-delay: 0.2s; }
         .link-card:nth-child(3) { animation-delay: 0.3s; }
@@ -142,16 +196,13 @@
             content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
             background: var(--hover-color); opacity: 0; transition: opacity 0.3s;
         }
-
         .link-card:hover {
             transform: translateY(-3px) scale(1.01);
             background: rgba(255, 255, 255, 0.07);
             border-color: rgba(255, 255, 255, 0.15);
             box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
         }
-
         .link-card:hover::before { opacity: 1; }
-
         .icon-box {
             width: 48px; height: 48px; border-radius: 12px;
             display: flex; align-items: center; justify-content: center;
@@ -159,207 +210,250 @@
             background: rgba(255, 255, 255, 0.05); color: var(--hover-color);
             transition: all 0.3s;
         }
-
         .link-card:hover .icon-box { background: var(--hover-color); color: #fff; transform: rotate(5deg); }
-
         .card-content { flex: 1; text-align: left; }
         .card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 4px; display: block; }
         .card-subtitle { font-size: 0.85rem; color: var(--text-muted); transition: color 0.3s; }
-
         .arrow-icon { opacity: 0.3; transition: all 0.3s; }
         .link-card:hover .arrow-icon { opacity: 1; transform: translateX(5px); color: var(--hover-color); }
 
-        /* Цвета брендов */
         .twitch { --hover-color: #9146FF; }
         .itchio { --hover-color: #FA5C5C; }
         .telegram { --hover-color: #2AABEE; }
         .donationalerts { --hover-color: #28b392; }
         .boosty { --hover-color: #F47F20; }
 
-        /* --- LIVE STATUS STYLES --- */
-        .twitch.is-live {
-            border-color: rgba(233, 25, 22, 0.4);
-            background: rgba(233, 25, 22, 0.05);
-        }
-        
-        .twitch.is-live .icon-box {
-            background: var(--live-red);
-            color: white;
-            box-shadow: 0 0 15px rgba(233, 25, 22, 0.6);
-        }
-
+        .twitch.is-live { border-color: rgba(233, 25, 22, 0.4); background: rgba(233, 25, 22, 0.05); }
+        .twitch.is-live .icon-box { background: var(--live-red); color: white; box-shadow: 0 0 15px rgba(233, 25, 22, 0.6); }
         .live-indicator {
-            display: none;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--live-red);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
+            display: none; align-items: center; gap: 6px; font-size: 0.75rem;
+            font-weight: 700; color: var(--live-red); text-transform: uppercase;
+            letter-spacing: 1px; margin-bottom: 4px;
         }
-
         .live-dot {
-            width: 8px; height: 8px;
-            background-color: var(--live-red);
-            border-radius: 50%;
-            animation: pulse-live 1.5s infinite;
+            width: 8px; height: 8px; background-color: var(--live-red);
+            border-radius: 50%; animation: pulse-live 1.5s infinite;
         }
-
         @keyframes pulse-live {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 25, 22, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(233, 25, 22, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 25, 22, 0); }
         }
-
         .twitch.is-live .live-indicator { display: flex; }
         .twitch.is-live .card-subtitle { color: #fff; }
 
-        /* --- Футер --- */
         footer { margin-top: 60px; font-size: 0.8rem; color: #444; }
         footer a { color: var(--primary); text-decoration: none; }
 
-        /* Анимации */
+        /* --- TELEGRAM SIDEBAR --- */
+        .tg-sidebar {
+            width: 350px; flex-shrink: 0; display: none;
+            animation: fadeInRight 0.8s ease-out 0.4s backwards;
+        }
+
+        @media (min-width: 1100px) { .tg-sidebar { display: block; } }
+
+        .tg-header {
+            display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+            padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .tg-header i { font-size: 1.5rem; color: var(--tg-blue); }
+        .tg-header h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; }
+        .tg-header span { font-size: 0.8rem; color: var(--text-muted); margin-left: auto; }
+
+        .tg-feed { display: flex; flex-direction: column; gap: 15px; max-height: 70vh; overflow-y: auto; padding-right: 10px; }
+        
+        /* Стилизация скроллбара для ленты */
+        .tg-feed::-webkit-scrollbar { width: 4px; }
+        .tg-feed::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); border-radius: 4px; }
+        .tg-feed::-webkit-scrollbar-thumb { background: rgba(157, 78, 221, 0.3); border-radius: 4px; }
+
+        .tg-post {
+            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px; padding: 16px; backdrop-filter: blur(10px);
+            transition: all 0.3s ease; text-align: left;
+        }
+        .tg-post:hover { border-color: rgba(42, 171, 238, 0.3); transform: translateX(-5px); }
+        
+        .tg-post-date { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; display: block; }
+        .tg-post-text { font-size: 0.9rem; line-height: 1.5; color: #ddd; word-break: break-word; }
+        .tg-post-link { 
+            display: inline-block; margin-top: 10px; font-size: 0.8rem; 
+            color: var(--tg-blue); text-decoration: none; font-weight: 500;
+        }
+        .tg-post-link:hover { text-decoration: underline; }
+
+        .tg-loading { text-align: center; color: var(--text-muted); padding: 20px; font-size: 0.9rem; }
+
+        @keyframes fadeInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 480px) {
-            h1 { font-size: 2.5rem; }
-            .container { padding: 30px 15px; }
+            .glitch-text { font-size: 2.5rem; }
+            .content-area { padding: 0 10px; }
             .link-card { padding: 15px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="background-glow"></div>
+    <!-- Анимированный фон -->
+    <div class="cyber-bg" id="cyberBg"></div>
     <div class="grid-overlay"></div>
 
-    <div class="container">
+    <div class="main-wrapper">
         
-        <div class="profile-section">
-            <div class="avatar-wrapper">
-                <div class="avatar-ring"></div>
-                <div class="avatar">
-                    <!-- Раскомментируй строку ниже и добавь свое фото, если нужно -->
-                    <!-- <img src="avatar.jpg" alt="FunDreamer Avatar"> -->
-                    <i class="fa-solid fa-gamepad"></i>
-                </div>
-            </div>
+        <!-- Основной контент -->
+        <div class="content-area">
             
-            <h1>FunDreamer</h1>
-            <div class="role-badge">Game Developer & Creator</div>
-            
-            <p class="bio">
-                Разрабатываю игры на Unity и приложения на Python.<br>
-                Создаю миры, пишу код и стримлю процесс.
-            </p>
-            
-            <div class="tech-stack">
-                <span class="tech-tag">#Unity</span>
-                <span class="tech-tag">#Python</span>
-            </div>
-        </div>
-
-        <div class="links-container">
-            
-            <!-- Twitch Card with Live Status -->
-            <a href="https://www.twitch.tv/fundreamer365/about" target="_blank" class="link-card twitch" id="twitch-card">
-                <div class="icon-box"><i class="fa-brands fa-twitch"></i></div>
-                <div class="card-content">
-                    <div class="live-indicator">
-                        <span class="live-dot"></span>
-                        <span>LIVE NOW</span>
+            <div class="profile-section">
+                <div class="avatar-wrapper">
+                    <div class="avatar-ring"></div>
+                    <div class="avatar">
+                        <!-- Раскомментируй строку ниже и добавь свое фото, если нужно -->
+                        <!-- <img src="avatar.jpg" alt="FunDreamer Avatar"> -->
+                        <i class="fa-solid fa-gamepad"></i>
                     </div>
-                    <span class="card-title">Twitch</span>
-                    <span class="card-subtitle" id="twitch-status">Стримы</span>
                 </div>
-                <i class="fa-solid fa-arrow-right arrow-icon"></i>
-            </a>
+                
+                <!-- GLITCH TITLE -->
+                <div class="glitch-wrapper">
+                    <h1 class="glitch-text" data-text="FunDreamer">FunDreamer</h1>
+                </div>
+                
+                <div class="role-badge">Game Developer & Creator</div>
+                
+                <p class="bio">
+                    Разрабатываю игры на Unity и приложения на Python.<br>
+                    Создаю миры, пишу код и стримлю процесс.
+                </p>
+                
+                <div class="tech-stack">
+                    <span class="tech-tag">#Unity</span>
+                    <span class="tech-tag">#Python3.13+</span>
+                    <span class="tech-tag">#PyQt6</span>
+                </div>
+            </div>
 
-            <!-- Itch.io -->
-            <a href="https://fundreamer.itch.io/" target="_blank" class="link-card itchio">
-                <div class="icon-box"><i class="fa-brands fa-itch-io"></i></div>
-                <div class="card-content">
-                    <span class="card-title">Itch.io</span>
-                    <span class="card-subtitle">Мои инди-проекты</span>
-                </div>
-                <i class="fa-solid fa-arrow-right arrow-icon"></i>
-            </a>
+            <div class="links-container">
+                
+                <!-- Twitch Card with Live Status -->
+                <a href="https://www.twitch.tv/fundreamer365/about" target="_blank" class="link-card twitch" id="twitch-card">
+                    <div class="icon-box"><i class="fa-brands fa-twitch"></i></div>
+                    <div class="card-content">
+                        <div class="live-indicator">
+                            <span class="live-dot"></span>
+                            <span>LIVE NOW</span>
+                        </div>
+                        <span class="card-title">Twitch</span>
+                        <span class="card-subtitle" id="twitch-status">Стримы и геймплей</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right arrow-icon"></i>
+                </a>
 
-            <!-- Telegram -->
-            <a href="https://t.me/FND_Squad" target="_blank" class="link-card telegram">
-                <div class="icon-box"><i class="fa-brands fa-telegram"></i></div>
-                <div class="card-content">
-                    <span class="card-title">Telegram</span>
-                    <span class="card-subtitle">Канал FND Squad</span>
-                </div>
-                <i class="fa-solid fa-arrow-right arrow-icon"></i>
-            </a>
+                <!-- Itch.io -->
+                <a href="https://fundreamer.itch.io/" target="_blank" class="link-card itchio">
+                    <div class="icon-box"><i class="fa-brands fa-itch-io"></i></div>
+                    <div class="card-content">
+                        <span class="card-title">Itch.io</span>
+                        <span class="card-subtitle">Мои инди-проекты</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right arrow-icon"></i>
+                </a>
 
-            <!-- DonationAlerts -->
-            <a href="https://www.donationalerts.com/r/fundreamer365" target="_blank" class="link-card donationalerts">
-                <div class="icon-box"><i class="fa-solid fa-heart-pulse"></i></div>
-                <div class="card-content">
-                    <span class="card-title">DonationAlerts</span>
-                    <span class="card-subtitle">Поддержать меня</span>
-                </div>
-                <i class="fa-solid fa-arrow-right arrow-icon"></i>
-            </a>
+                <!-- Telegram -->
+                <a href="https://t.me/FND_Squad" target="_blank" class="link-card telegram">
+                    <div class="icon-box"><i class="fa-brands fa-telegram"></i></div>
+                    <div class="card-content">
+                        <span class="card-title">Telegram</span>
+                        <span class="card-subtitle">Канал FND_Squad</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right arrow-icon"></i>
+                </a>
 
-            <!-- Boosty -->
-            <a href="https://boosty.to/fundreamer365" target="_blank" class="link-card boosty">
-                <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
-                <div class="card-content">
-                    <span class="card-title">Boosty</span>
-                    <span class="card-subtitle">Эксклюзивный контент</span>
-                </div>
-                <i class="fa-solid fa-arrow-right arrow-icon"></i>
-            </a>
+                <!-- DonationAlerts -->
+                <a href="https://www.donationalerts.com/r/fundreamer365" target="_blank" class="link-card donationalerts">
+                    <div class="icon-box"><i class="fa-solid fa-heart-pulse"></i></div>
+                    <div class="card-content">
+                        <span class="card-title">DonationAlerts</span>
+                        <span class="card-subtitle">Поддержать проект</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right arrow-icon"></i>
+                </a>
+
+                <!-- Boosty -->
+                <a href="https://boosty.to/fundreamer365" target="_blank" class="link-card boosty">
+                    <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
+                    <div class="card-content">
+                        <span class="card-title">Boosty</span>
+                        <span class="card-subtitle">Эксклюзивный контент</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right arrow-icon"></i>
+                </a>
+
+            </div>
+
+            <footer>
+                <p>&copy; 2026 FunDreamer. Code & Dreams.</p>
+            </footer>
 
         </div>
 
-        <footer>
-            <p>&copy; 2026 FunDreamer</p>
-        </footer>
+        <!-- Сайдбар с Telegram лентой -->
+        <aside class="tg-sidebar">
+            <div class="tg-header">
+                <i class="fa-brands fa-telegram"></i>
+                <h3>FND_Squad Feed</h3>
+                <span>Live</span>
+            </div>
+            <div class="tg-feed" id="tgFeed">
+                <div class="tg-loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Загрузка постов...</div>
+            </div>
+        </aside>
 
     </div>
 
     <script>
-        // КОНФИГУРАЦИЯ
+        // --- 1. ГЕНЕРАЦИЯ ФОНА (DATA STREAMS) ---
+        const bgContainer = document.getElementById('cyberBg');
+        const streamCount = 20;
+        
+        for(let i = 0; i < streamCount; i++) {
+            const stream = document.createElement('div');
+            stream.className = 'data-stream';
+            stream.style.left = `${Math.random() * 100}%`;
+            stream.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            stream.style.animationDelay = `${Math.random() * 5}s`;
+            stream.style.opacity = Math.random() * 0.3 + 0.1;
+            bgContainer.appendChild(stream);
+        }
+
+        // --- 2. TWITCH STATUS CHECKER ---
         const TWITCH_USERNAME = 'fundreamer365';
-        const CHECK_INTERVAL = 60; // Проверка каждые 6 секунд
+        const CHECK_INTERVAL = 60000; 
 
         async function checkTwitchStatus() {
             const card = document.getElementById('twitch-card');
             const statusText = document.getElementById('twitch-status');
             
             try {
-                // Используем публичный endpoint Helix API
                 const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${TWITCH_USERNAME}`, {
-                    headers: {
-                        'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko' // Публичный Client ID для веб-виджетов
-                    }
+                    headers: { 'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko' }
                 });
 
                 if (!response.ok) throw new Error('API Error');
-
                 const data = await response.json();
                 
                 if (data.data && data.data.length > 0) {
-                    // СТРИМ АКТИВЕН
                     card.classList.add('is-live');
                     const streamTitle = data.data[0].title;
                     const viewers = data.data[0].viewer_count;
-                    
-                    // Показываем название стрима и зрителей
                     statusText.innerHTML = `<span style="color:#fff">${streamTitle}</span> • 👁 ${viewers}`;
                     statusText.style.fontSize = '0.8rem';
                     statusText.style.lineHeight = '1.3';
                 } else {
-                    // СТРИМ ОФФЛАЙН
                     card.classList.remove('is-live');
                     statusText.textContent = 'Стримы и геймплей';
                     statusText.style.fontSize = '';
@@ -367,16 +461,59 @@
                 }
             } catch (error) {
                 console.log('Twitch status check failed:', error);
-                // При ошибке оставляем дефолтное состояние
                 card.classList.remove('is-live');
                 statusText.textContent = 'Стримы и геймплей';
             }
         }
 
-        // Запускаем проверку при загрузке и затем по интервалу
+        // --- 3. TELEGRAM FEED LOADER ---
+        // Используем rss2json для обхода CORS. ID канала -1002111834177
+        const TG_CHANNEL_ID = '-1002111834177';
+        const RSS_URL = `https://rsshub.rssforever.com/telegram/channel/${TG_CHANNEL_ID.replace('-100', '')}`;
+        const PROXY_API = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}&count=5`;
+
+        async function loadTelegramFeed() {
+            const feedContainer = document.getElementById('tgFeed');
+            
+            try {
+                const response = await fetch(PROXY_API);
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.json();
+                
+                if (data.status === 'ok' && data.items) {
+                    feedContainer.innerHTML = ''; // Очищаем лоадер
+                    
+                    data.items.forEach(item => {
+                        // Очистка HTML тегов из описания для безопасности
+                        const cleanDesc = item.description.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...';
+                        const date = new Date(item.pubDate).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute:'2-digit' });
+                        
+                        const postEl = document.createElement('div');
+                        postEl.className = 'tg-post';
+                        postEl.innerHTML = `
+                            <span class="tg-post-date">${date}</span>
+                            <div class="tg-post-text">${cleanDesc}</div>
+                            <a href="${item.link}" target="_blank" class="tg-post-link">Читать в Telegram →</a>
+                        `;
+                        feedContainer.appendChild(postEl);
+                    });
+                } else {
+                    feedContainer.innerHTML = '<div class="tg-loading">Не удалось загрузить ленту</div>';
+                }
+            } catch (error) {
+                console.error('TG Feed Error:', error);
+                feedContainer.innerHTML = '<div class="tg-loading">Ошибка загрузки ленты</div>';
+            }
+        }
+
+        // Инициализация
         document.addEventListener('DOMContentLoaded', () => {
             checkTwitchStatus();
             setInterval(checkTwitchStatus, CHECK_INTERVAL);
+            loadTelegramFeed();
+            // Обновляем ленту каждые 5 минут
+            setInterval(loadTelegramFeed, 300000); 
         });
     </script>
 
