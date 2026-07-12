@@ -3,14 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FunDreamer | Game Dev Portfolio</title>
     
-    <!-- Подключаем современные шрифты -->
+    <!-- SEO и Social Media Meta Tags -->
+    <title>FunDreamer | Game Dev & Python Creator</title>
+    <meta name="description" content="Разработчик игр на Unity и приложений на Python. Стримы, инди-проекты и эксклюзивный контент.">
+    <meta property="og:title" content="FunDreamer Portfolio">
+    <meta property="og:description" content="Game Developer & Python Creator. Заходи на стримы и смотри мои проекты!">
+    <meta property="og:image" content="favicon.png"> <!-- Ссылка на превью при отправке ссылки -->
+    <meta property="og:type" content="website">
+
+    <!-- FAVICON: Иконка сайта -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    
+    <!-- Шрифты и иконки -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    
-    <!-- Подключаем иконки Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -24,11 +33,7 @@
             --text-muted: #a0a0b0;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Outfit', sans-serif;
@@ -45,22 +50,15 @@
         /* --- Фон и эффекты --- */
         .background-glow {
             position: fixed;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 100vw;
-            height: 100vh;
+            width: 100vw; height: 100vh;
             background: radial-gradient(circle at center, rgba(157, 78, 221, 0.15) 0%, transparent 70%);
-            z-index: -2;
-            pointer-events: none;
+            z-index: -2; pointer-events: none;
         }
 
         .grid-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
                 linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
@@ -72,133 +70,84 @@
 
         /* --- Контейнер --- */
         .container {
-            width: 100%;
-            max-width: 600px;
-            padding: 40px 20px;
-            z-index: 1;
-            text-align: center;
+            width: 100%; max-width: 600px;
+            padding: 40px 20px; z-index: 1; text-align: center;
         }
 
         /* --- Профиль --- */
-        .profile-section {
-            margin-bottom: 50px;
-            animation: fadeInDown 0.8s ease-out;
-        }
+        .profile-section { margin-bottom: 50px; animation: fadeInDown 0.8s ease-out; }
 
         .avatar-wrapper {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 25px;
+            position: relative; width: 120px; height: 120px; margin: 0 auto 25px;
         }
 
         .avatar {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
+            width: 100%; height: 100%; border-radius: 50%;
             background: linear-gradient(135deg, #2a2a35, #1a1a20);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; border: 2px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 30px rgba(157, 78, 221, 0.3);
-            position: relative;
-            z-index: 2;
-            overflow: hidden;
+            position: relative; z-index: 2; overflow: hidden;
         }
         
-        /* Имитация картинки разработчика, если нет фото */
+        .avatar img {
+            width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+        }
+        
         .avatar i {
             background: linear-gradient(to bottom, #fff, #aaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         .avatar-ring {
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            border-top-color: var(--primary);
-            border-right-color: var(--secondary);
+            position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 50%; border: 2px solid transparent;
+            border-top-color: var(--primary); border-right-color: var(--secondary);
             animation: spin 4s linear infinite;
         }
 
         h1 {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
+            font-family: 'Rajdhani', sans-serif; font-size: 3rem; font-weight: 700;
+            letter-spacing: 2px; margin-bottom: 10px;
             background: linear-gradient(to right, #fff, #b8b8d0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             text-transform: uppercase;
         }
 
         .role-badge {
-            display: inline-block;
-            padding: 6px 16px;
-            background: rgba(157, 78, 221, 0.1);
-            border: 1px solid rgba(157, 78, 221, 0.3);
-            border-radius: 20px;
-            color: var(--primary);
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 20px;
-            backdrop-filter: blur(5px);
+            display: inline-block; padding: 6px 16px;
+            background: rgba(157, 78, 221, 0.1); border: 1px solid rgba(157, 78, 221, 0.3);
+            border-radius: 20px; color: var(--primary); font-size: 0.9rem; font-weight: 500;
+            margin-bottom: 20px; backdrop-filter: blur(5px);
         }
 
         .bio {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            line-height: 1.6;
-            max-width: 450px;
-            margin: 0 auto;
+            color: var(--text-muted); font-size: 1.1rem; line-height: 1.6;
+            max-width: 450px; margin: 0 auto;
         }
 
         .tech-stack {
-            margin-top: 15px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            margin-top: 15px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
         }
 
         .tech-tag {
-            font-size: 0.8rem;
-            color: #666;
-            font-family: monospace;
+            font-size: 0.8rem; color: #666; font-family: monospace;
+            background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 6px;
         }
 
         /* --- Ссылки (Карточки) --- */
-        .links-container {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+        .links-container { display: flex; flex-direction: column; gap: 16px; }
 
         .link-card {
-            position: relative;
-            display: flex;
-            align-items: center;
-            padding: 18px 24px;
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            text-decoration: none;
-            color: white;
+            position: relative; display: flex; align-items: center;
+            padding: 18px 24px; background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px;
+            text-decoration: none; color: white;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            backdrop-filter: blur(10px);
-            overflow: hidden;
+            backdrop-filter: blur(10px); overflow: hidden;
             animation: fadeInUp 0.5s ease-out backwards;
         }
 
-        /* Задержка анимации для каждой карточки */
         .link-card:nth-child(1) { animation-delay: 0.1s; }
         .link-card:nth-child(2) { animation-delay: 0.2s; }
         .link-card:nth-child(3) { animation-delay: 0.3s; }
@@ -206,15 +155,8 @@
         .link-card:nth-child(5) { animation-delay: 0.5s; }
 
         .link-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--hover-color);
-            opacity: 0;
-            transition: opacity 0.3s;
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--hover-color); opacity: 0; transition: opacity 0.3s;
         }
 
         .link-card:hover {
@@ -224,92 +166,43 @@
             box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
         }
 
-        .link-card:hover::before {
-            opacity: 1;
-        }
+        .link-card:hover::before { opacity: 1; }
 
         .icon-box {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-right: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--hover-color);
+            width: 48px; height: 48px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-right: 20px;
+            background: rgba(255, 255, 255, 0.05); color: var(--hover-color);
             transition: all 0.3s;
         }
 
         .link-card:hover .icon-box {
-            background: var(--hover-color);
-            color: #fff;
-            transform: rotate(5deg);
+            background: var(--hover-color); color: #fff; transform: rotate(5deg);
         }
 
-        .card-content {
-            flex: 1;
-            text-align: left;
-        }
+        .card-content { flex: 1; text-align: left; }
 
-        .card-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 4px;
-            display: block;
-        }
+        .card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 4px; display: block; }
+        .card-subtitle { font-size: 0.85rem; color: var(--text-muted); }
 
-        .card-subtitle {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .arrow-icon {
-            opacity: 0.3;
-            transition: all 0.3s;
-        }
-
-        .link-card:hover .arrow-icon {
-            opacity: 1;
-            transform: translateX(5px);
-            color: var(--hover-color);
-        }
+        .arrow-icon { opacity: 0.3; transition: all 0.3s; }
+        .link-card:hover .arrow-icon { opacity: 1; transform: translateX(5px); color: var(--hover-color); }
 
         /* Цвета брендов */
         .twitch { --hover-color: #9146FF; }
         .itchio { --hover-color: #FA5C5C; }
         .telegram { --hover-color: #2AABEE; }
-        .donationalerts { --hover-color: #28b392; } /* Зеленый цвет DA */
+        .donationalerts { --hover-color: #28b392; }
         .boosty { --hover-color: #F47F20; }
 
         /* --- Футер --- */
-        footer {
-            margin-top: 60px;
-            font-size: 0.8rem;
-            color: #444;
-        }
-        
-        footer a {
-            color: var(--primary);
-            text-decoration: none;
-        }
+        footer { margin-top: 60px; font-size: 0.8rem; color: #444; }
+        footer a { color: var(--primary); text-decoration: none; }
 
         /* Анимации */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Адаптив */
         @media (max-width: 480px) {
@@ -330,7 +223,8 @@
             <div class="avatar-wrapper">
                 <div class="avatar-ring"></div>
                 <div class="avatar">
-                    <!-- Иконка геймпада или робота -->
+                    <!-- Если хочешь поставить свое фото, раскомментируй строку ниже и удали <i> -->
+                    <!-- <img src="avatar.jpg" alt="FunDreamer Avatar"> -->
                     <i class="fa-solid fa-gamepad"></i>
                 </div>
             </div>
@@ -345,7 +239,8 @@
             
             <div class="tech-stack">
                 <span class="tech-tag">#Unity</span>
-                <span class="tech-tag">#Python</span>
+                <span class="tech-tag">#Python3.13+</span>
+                <span class="tech-tag">#PyQt6</span>
             </div>
         </div>
 
@@ -353,59 +248,47 @@
             
             <!-- Twitch -->
             <a href="https://www.twitch.tv/fundreamer365/about" target="_blank" class="link-card twitch">
-                <div class="icon-box">
-                    <i class="fa-brands fa-twitch"></i>
-                </div>
+                <div class="icon-box"><i class="fa-brands fa-twitch"></i></div>
                 <div class="card-content">
                     <span class="card-title">Twitch</span>
-                    <span class="card-subtitle">Стримы</span>
+                    <span class="card-subtitle">Стримы и геймплей</span>
                 </div>
                 <i class="fa-solid fa-arrow-right arrow-icon"></i>
             </a>
 
             <!-- Itch.io -->
             <a href="https://fundreamer.itch.io/" target="_blank" class="link-card itchio">
-                <div class="icon-box">
-                    <i class="fa-brands fa-itch-io"></i>
-                </div>
+                <div class="icon-box"><i class="fa-brands fa-itch-io"></i></div>
                 <div class="card-content">
                     <span class="card-title">Itch.io</span>
-                    <span class="card-subtitle">Мои инди-проекты и игры</span>
+                    <span class="card-subtitle">Мои инди-проекты</span>
                 </div>
                 <i class="fa-solid fa-arrow-right arrow-icon"></i>
             </a>
 
             <!-- Telegram -->
             <a href="https://t.me/FND_Squad" target="_blank" class="link-card telegram">
-                <div class="icon-box">
-                    <i class="fa-brands fa-telegram"></i>
-                </div>
+                <div class="icon-box"><i class="fa-brands fa-telegram"></i></div>
                 <div class="card-content">
                     <span class="card-title">Telegram</span>
-                    <span class="card-subtitle">Канал FND Squad</span>
+                    <span class="card-subtitle">Канал FND_Squad</span>
                 </div>
                 <i class="fa-solid fa-arrow-right arrow-icon"></i>
             </a>
 
             <!-- DonationAlerts -->
             <a href="https://www.donationalerts.com/r/fundreamer365" target="_blank" class="link-card donationalerts">
-                <div class="icon-box">
-                    <!-- Используем иконку сердца/доната, т.к. официального бренда нет в FA -->
-                    <i class="fa-solid fa-heart-pulse"></i>
-                </div>
+                <div class="icon-box"><i class="fa-solid fa-heart-pulse"></i></div>
                 <div class="card-content">
                     <span class="card-title">DonationAlerts</span>
-                    <span class="card-subtitle">Поддержать разработку</span>
+                    <span class="card-subtitle">Поддержать проект</span>
                 </div>
                 <i class="fa-solid fa-arrow-right arrow-icon"></i>
             </a>
 
             <!-- Boosty -->
             <a href="https://boosty.to/fundreamer365" target="_blank" class="link-card boosty">
-                <div class="icon-box">
-                    <!-- Используем иконку звезды/короны для эксклюзива -->
-                    <i class="fa-solid fa-crown"></i>
-                </div>
+                <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
                 <div class="card-content">
                     <span class="card-title">Boosty</span>
                     <span class="card-subtitle">Эксклюзивный контент</span>
@@ -416,7 +299,7 @@
         </div>
 
         <footer>
-            <p>&copy; 2026 FunDreamer</p>
+            <p>&copy; 2026 FunDreamer. Code & Dreams.</p>
         </footer>
 
     </div>
