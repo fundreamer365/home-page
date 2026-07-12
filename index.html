@@ -9,7 +9,7 @@
     <meta name="description" content="Разработчик игр на Unity и приложений на Python. Стримы, инди-проекты и эксклюзивный контент.">
     <meta property="og:title" content="FunDreamer Portfolio">
     <meta property="og:description" content="Game Developer & Python Creator. Заходи на стримы и смотри мои проекты!">
-    <meta property="og:image" content="favicon.png"> <!-- Ссылка на превью при отправке ссылки -->
+    <meta property="og:image" content="favicon.png">
     <meta property="og:type" content="website">
 
     <!-- FAVICON: Иконка сайта -->
@@ -31,6 +31,7 @@
             --card-bg: rgba(255, 255, 255, 0.03);
             --text-main: #ffffff;
             --text-muted: #a0a0b0;
+            --live-red: #e91916;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -49,10 +50,8 @@
 
         /* --- Фон и эффекты --- */
         .background-glow {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100vw; height: 100vh;
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); width: 100vw; height: 100vh;
             background: radial-gradient(circle at center, rgba(157, 78, 221, 0.15) 0%, transparent 70%);
             z-index: -2; pointer-events: none;
         }
@@ -62,24 +61,20 @@
             background-image: 
                 linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: -1;
+            background-size: 40px 40px; z-index: -1;
             mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
             -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
         }
 
         /* --- Контейнер --- */
         .container {
-            width: 100%; max-width: 600px;
-            padding: 40px 20px; z-index: 1; text-align: center;
+            width: 100%; max-width: 600px; padding: 40px 20px; z-index: 1; text-align: center;
         }
 
         /* --- Профиль --- */
         .profile-section { margin-bottom: 50px; animation: fadeInDown 0.8s ease-out; }
 
-        .avatar-wrapper {
-            position: relative; width: 120px; height: 120px; margin: 0 auto 25px;
-        }
+        .avatar-wrapper { position: relative; width: 120px; height: 120px; margin: 0 auto 25px; }
 
         .avatar {
             width: 100%; height: 100%; border-radius: 50%;
@@ -90,9 +85,7 @@
             position: relative; z-index: 2; overflow: hidden;
         }
         
-        .avatar img {
-            width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
-        }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
         
         .avatar i {
             background: linear-gradient(to bottom, #fff, #aaa);
@@ -121,19 +114,10 @@
             margin-bottom: 20px; backdrop-filter: blur(5px);
         }
 
-        .bio {
-            color: var(--text-muted); font-size: 1.1rem; line-height: 1.6;
-            max-width: 450px; margin: 0 auto;
-        }
+        .bio { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; max-width: 450px; margin: 0 auto; }
 
-        .tech-stack {
-            margin-top: 15px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
-        }
-
-        .tech-tag {
-            font-size: 0.8rem; color: #666; font-family: monospace;
-            background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 6px;
-        }
+        .tech-stack { margin-top: 15px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .tech-tag { font-size: 0.8rem; color: #666; font-family: monospace; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 6px; }
 
         /* --- Ссылки (Карточки) --- */
         .links-container { display: flex; flex-direction: column; gap: 16px; }
@@ -176,14 +160,11 @@
             transition: all 0.3s;
         }
 
-        .link-card:hover .icon-box {
-            background: var(--hover-color); color: #fff; transform: rotate(5deg);
-        }
+        .link-card:hover .icon-box { background: var(--hover-color); color: #fff; transform: rotate(5deg); }
 
         .card-content { flex: 1; text-align: left; }
-
         .card-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 4px; display: block; }
-        .card-subtitle { font-size: 0.85rem; color: var(--text-muted); }
+        .card-subtitle { font-size: 0.85rem; color: var(--text-muted); transition: color 0.3s; }
 
         .arrow-icon { opacity: 0.3; transition: all 0.3s; }
         .link-card:hover .arrow-icon { opacity: 1; transform: translateX(5px); color: var(--hover-color); }
@@ -195,6 +176,46 @@
         .donationalerts { --hover-color: #28b392; }
         .boosty { --hover-color: #F47F20; }
 
+        /* --- LIVE STATUS STYLES --- */
+        .twitch.is-live {
+            border-color: rgba(233, 25, 22, 0.4);
+            background: rgba(233, 25, 22, 0.05);
+        }
+        
+        .twitch.is-live .icon-box {
+            background: var(--live-red);
+            color: white;
+            box-shadow: 0 0 15px rgba(233, 25, 22, 0.6);
+        }
+
+        .live-indicator {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--live-red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .live-dot {
+            width: 8px; height: 8px;
+            background-color: var(--live-red);
+            border-radius: 50%;
+            animation: pulse-live 1.5s infinite;
+        }
+
+        @keyframes pulse-live {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 25, 22, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(233, 25, 22, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 25, 22, 0); }
+        }
+
+        .twitch.is-live .live-indicator { display: flex; }
+        .twitch.is-live .card-subtitle { color: #fff; }
+
         /* --- Футер --- */
         footer { margin-top: 60px; font-size: 0.8rem; color: #444; }
         footer a { color: var(--primary); text-decoration: none; }
@@ -204,7 +225,6 @@
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Адаптив */
         @media (max-width: 480px) {
             h1 { font-size: 2.5rem; }
             .container { padding: 30px 15px; }
@@ -223,7 +243,7 @@
             <div class="avatar-wrapper">
                 <div class="avatar-ring"></div>
                 <div class="avatar">
-                    <!-- Если хочешь поставить свое фото, раскомментируй строку ниже и удали <i> -->
+                    <!-- Раскомментируй строку ниже и добавь свое фото, если нужно -->
                     <!-- <img src="avatar.jpg" alt="FunDreamer Avatar"> -->
                     <i class="fa-solid fa-gamepad"></i>
                 </div>
@@ -246,12 +266,16 @@
 
         <div class="links-container">
             
-            <!-- Twitch -->
-            <a href="https://www.twitch.tv/fundreamer365/about" target="_blank" class="link-card twitch">
+            <!-- Twitch Card with Live Status -->
+            <a href="https://www.twitch.tv/fundreamer365/about" target="_blank" class="link-card twitch" id="twitch-card">
                 <div class="icon-box"><i class="fa-brands fa-twitch"></i></div>
                 <div class="card-content">
+                    <div class="live-indicator">
+                        <span class="live-dot"></span>
+                        <span>LIVE NOW</span>
+                    </div>
                     <span class="card-title">Twitch</span>
-                    <span class="card-subtitle">Стримы и геймплей</span>
+                    <span class="card-subtitle" id="twitch-status">Стримы и геймплей</span>
                 </div>
                 <i class="fa-solid fa-arrow-right arrow-icon"></i>
             </a>
@@ -303,6 +327,59 @@
         </footer>
 
     </div>
+
+    <script>
+        // КОНФИГУРАЦИЯ
+        const TWITCH_USERNAME = 'fundreamer365';
+        const CHECK_INTERVAL = 60000; // Проверка каждые 60 секунд
+
+        async function checkTwitchStatus() {
+            const card = document.getElementById('twitch-card');
+            const statusText = document.getElementById('twitch-status');
+            
+            try {
+                // Используем публичный endpoint Helix API
+                const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${TWITCH_USERNAME}`, {
+                    headers: {
+                        'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko' // Публичный Client ID для веб-виджетов
+                    }
+                });
+
+                if (!response.ok) throw new Error('API Error');
+
+                const data = await response.json();
+                
+                if (data.data && data.data.length > 0) {
+                    // СТРИМ АКТИВЕН
+                    card.classList.add('is-live');
+                    const streamTitle = data.data[0].title;
+                    const viewers = data.data[0].viewer_count;
+                    
+                    // Показываем название стрима и зрителей
+                    statusText.innerHTML = `<span style="color:#fff">${streamTitle}</span> • 👁 ${viewers}`;
+                    statusText.style.fontSize = '0.8rem';
+                    statusText.style.lineHeight = '1.3';
+                } else {
+                    // СТРИМ ОФФЛАЙН
+                    card.classList.remove('is-live');
+                    statusText.textContent = 'Стримы и геймплей';
+                    statusText.style.fontSize = '';
+                    statusText.style.lineHeight = '';
+                }
+            } catch (error) {
+                console.log('Twitch status check failed:', error);
+                // При ошибке оставляем дефолтное состояние
+                card.classList.remove('is-live');
+                statusText.textContent = 'Стримы и геймплей';
+            }
+        }
+
+        // Запускаем проверку при загрузке и затем по интервалу
+        document.addEventListener('DOMContentLoaded', () => {
+            checkTwitchStatus();
+            setInterval(checkTwitchStatus, CHECK_INTERVAL);
+        });
+    </script>
 
 </body>
 </html>
