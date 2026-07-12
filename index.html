@@ -1,15 +1,29 @@
-
-# Создадим HTML файл с современным дизайном
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FunDreamer - Game Developer</title>
+    <title>FunDreamer | Game Dev Portfolio</title>
+    
+    <!-- Подключаем современные шрифты -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Подключаем иконки Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        :root {
+            --primary: #9d4edd;
+            --secondary: #ff006e;
+            --accent: #3a86ff;
+            --bg-dark: #050507;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --text-main: #ffffff;
+            --text-muted: #a0a0b0;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -17,417 +31,396 @@ html_content = """<!DOCTYPE html>
         }
 
         body {
-            font-family: 'Rajdhani', sans-serif;
-            background: #0a0a0f;
-            color: #fff;
-            overflow-x: hidden;
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             position: relative;
         }
 
-        /* Animated background */
-        .bg-animation {
+        /* --- Фон и эффекты --- */
+        .background-glow {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(135deg, #0a0a0f 0%, #1a0a2e 50%, #0a0a0f 100%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, rgba(157, 78, 221, 0.15) 0%, transparent 70%);
+            z-index: -2;
+            pointer-events: none;
         }
 
-        .bg-animation::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(120, 0, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(0, 255, 255, 0.05) 0%, transparent 50%);
-            animation: pulse 8s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        /* Grid overlay */
         .grid-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
             background-image: 
-                linear-gradient(rgba(120, 0, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(120, 0, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
         }
 
-        /* Main container */
+        /* --- Контейнер --- */
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            width: 100%;
+            max-width: 600px;
             padding: 40px 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Profile section */
-        .profile {
+            z-index: 1;
             text-align: center;
-            margin-bottom: 60px;
-            animation: fadeInUp 1s ease-out;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* --- Профиль --- */
+        .profile-section {
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
         }
 
         .avatar {
-            width: 150px;
-            height: 150px;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            background: linear-gradient(135deg, #7800ff, #ff0080);
-            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #2a2a35, #1a1a20);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 60px;
-            box-shadow: 0 0 40px rgba(120, 0, 255, 0.5);
-            animation: glow 2s ease-in-out infinite alternate;
+            font-size: 3rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 30px rgba(157, 78, 221, 0.3);
             position: relative;
+            z-index: 2;
             overflow: hidden;
         }
-
-        .avatar::before {
-            content: '🎮';
-            z-index: 2;
+        
+        /* Имитация картинки разработчика, если нет фото */
+        .avatar i {
+            background: linear-gradient(to bottom, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .avatar::after {
-            content: '';
+        .avatar-ring {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-
-        @keyframes glow {
-            from {
-                box-shadow: 0 0 40px rgba(120, 0, 255, 0.5);
-            }
-            to {
-                box-shadow: 0 0 60px rgba(255, 0, 128, 0.7);
-            }
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: var(--primary);
+            border-right-color: var(--secondary);
+            animation: spin 4s linear infinite;
         }
 
         h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #7800ff, #ff0080, #00ffff);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, #b8b8d0);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            animation: gradientShift 3s ease infinite;
-            background-size: 200% 200%;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .role-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(157, 78, 221, 0.1);
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            border-radius: 20px;
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            backdrop-filter: blur(5px);
         }
 
-        .subtitle {
-            font-size: 1.3rem;
-            color: #b8b8d0;
-            margin-bottom: 10px;
-            font-weight: 300;
-            letter-spacing: 2px;
-        }
-
-        .description {
+        .bio {
+            color: var(--text-muted);
             font-size: 1.1rem;
-            color: #8888aa;
-            max-width: 600px;
-            margin: 0 auto;
             line-height: 1.6;
+            max-width: 450px;
+            margin: 0 auto;
         }
 
-        /* Social links grid */
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            width: 100%;
-            max-width: 900px;
-            animation: fadeInUp 1s ease-out 0.3s both;
+        .tech-stack {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        .social-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(120, 0, 255, 0.2);
-            border-radius: 15px;
-            padding: 30px;
-            text-decoration: none;
-            color: #fff;
-            transition: all 0.3s ease;
+        .tech-tag {
+            font-size: 0.8rem;
+            color: #666;
+            font-family: monospace;
+        }
+
+        /* --- Ссылки (Карточки) --- */
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .link-card {
             position: relative;
-            overflow: hidden;
             display: flex;
             align-items: center;
-            gap: 20px;
+            padding: 18px 24px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease-out backwards;
         }
 
-        .social-card::before {
+        /* Задержка анимации для каждой карточки */
+        .link-card:nth-child(1) { animation-delay: 0.1s; }
+        .link-card:nth-child(2) { animation-delay: 0.2s; }
+        .link-card:nth-child(3) { animation-delay: 0.3s; }
+        .link-card:nth-child(4) { animation-delay: 0.4s; }
+        .link-card:nth-child(5) { animation-delay: 0.5s; }
+
+        .link-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
+            left: 0;
+            width: 4px;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(120, 0, 255, 0.1), transparent);
-            transition: left 0.5s ease;
+            background: var(--hover-color);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
-        .social-card:hover::before {
-            left: 100%;
+        .link-card:hover {
+            transform: translateY(-3px) scale(1.01);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
         }
 
-        .social-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(120, 0, 255, 0.6);
-            box-shadow: 0 10px 40px rgba(120, 0, 255, 0.3);
+        .link-card:hover::before {
+            opacity: 1;
         }
 
-        .social-icon {
-            font-size: 2.5rem;
-            width: 60px;
-            height: 60px;
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
-            flex-shrink: 0;
-        }
-
-        .twitch .social-icon {
-            background: linear-gradient(135deg, #9146ff, #6441a5);
-        }
-
-        .itchio .social-icon {
-            background: linear-gradient(135deg, #fa5c5c, #ff6600);
-        }
-
-        .telegram .social-icon {
-            background: linear-gradient(135deg, #0088cc, #00aced);
-        }
-
-        .donate .social-icon {
-            background: linear-gradient(135deg, #ff6b6b, #ff4757);
-        }
-
-        .boosty .social-icon {
-            background: linear-gradient(135deg, #f47f20, #ff8c00);
-        }
-
-        .social-info {
-            flex: 1;
-        }
-
-        .social-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .social-desc {
-            font-size: 0.95rem;
-            color: #8888aa;
-        }
-
-        .arrow {
             font-size: 1.5rem;
-            color: #7800ff;
-            transition: transform 0.3s ease;
+            margin-right: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--hover-color);
+            transition: all 0.3s;
         }
 
-        .social-card:hover .arrow {
+        .link-card:hover .icon-box {
+            background: var(--hover-color);
+            color: #fff;
+            transform: rotate(5deg);
+        }
+
+        .card-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .card-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .arrow-icon {
+            opacity: 0.3;
+            transition: all 0.3s;
+        }
+
+        .link-card:hover .arrow-icon {
+            opacity: 1;
             transform: translateX(5px);
+            color: var(--hover-color);
         }
 
-        /* Footer */
-        .footer {
+        /* Цвета брендов */
+        .twitch { --hover-color: #9146FF; }
+        .itchio { --hover-color: #FA5C5C; }
+        .telegram { --hover-color: #2AABEE; }
+        .donationalerts { --hover-color: #28b392; } /* Зеленый цвет DA */
+        .boosty { --hover-color: #F47F20; }
+
+        /* --- Футер --- */
+        footer {
             margin-top: 60px;
-            text-align: center;
-            color: #555577;
-            font-size: 0.9rem;
-            animation: fadeInUp 1s ease-out 0.6s both;
+            font-size: 0.8rem;
+            color: #444;
         }
-
-        .footer a {
-            color: #7800ff;
+        
+        footer a {
+            color: var(--primary);
             text-decoration: none;
-            transition: color 0.3s ease;
         }
 
-        .footer a:hover {
-            color: #ff0080;
+        /* Анимации */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .social-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .avatar {
-                width: 120px;
-                height: 120px;
-                font-size: 50px;
-            }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Particle effect */
-        .particle {
-            position: fixed;
-            width: 2px;
-            height: 2px;
-            background: rgba(120, 0, 255, 0.5);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: float 10s infinite linear;
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(100px);
-                opacity: 0;
-            }
+        /* Адаптив */
+        @media (max-width: 480px) {
+            h1 { font-size: 2.5rem; }
+            .container { padding: 30px 15px; }
+            .link-card { padding: 15px 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-animation"></div>
+
+    <div class="background-glow"></div>
     <div class="grid-overlay"></div>
 
-    <!-- Particles -->
-    <script>
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 10 + 's';
-            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            document.body.appendChild(particle);
-        }
-    </script>
-
     <div class="container">
-        <div class="profile">
-            <div class="avatar"></div>
+        
+        <div class="profile-section">
+            <div class="avatar-wrapper">
+                <div class="avatar-ring"></div>
+                <div class="avatar">
+                    <!-- Иконка геймпада или робота -->
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+            </div>
+            
             <h1>FunDreamer</h1>
-            <p class="subtitle">Game Developer & Creator</p>
-            <p class="description">
-                Разработчик игр на Unity | Python разработчик | Создатель приложений на PyQt6<br>
-                Киберпанк • Хоррор • Рогалики
+            <div class="role-badge">Game Developer & Creator</div>
+            
+            <p class="bio">
+                Разрабатываю игры на Unity и приложения на Python.<br>
+                Создаю миры, пишу код и стримлю процесс.
             </p>
+            
+            <div class="tech-stack">
+                <span class="tech-tag">#Unity</span>
+                <span class="tech-tag">#Python3.13</span>
+                <span class="tech-tag">#PyQt6</span>
+            </div>
         </div>
 
-        <div class="social-grid">
-            <a href="https://www.twitch.tv/fundreamer365/about" target="_blank" class="social-card twitch">
-                <div class="social-icon">📺</div>
-                <div class="social-info">
-                    <div class="social-name">Twitch</div>
-                    <div class="social-desc">Стримы и геймплей</div>
+        <div class="links-container">
+            
+            <!-- Twitch -->
+            <a href="https://www.twitch.tv/fundreamer365/about" target="_blank" class="link-card twitch">
+                <div class="icon-box">
+                    <i class="fa-brands fa-twitch"></i>
                 </div>
-                <div class="arrow">→</div>
+                <div class="card-content">
+                    <span class="card-title">Twitch</span>
+                    <span class="card-subtitle">Стримы, код и геймплей</span>
+                </div>
+                <i class="fa-solid fa-arrow-right arrow-icon"></i>
             </a>
 
-            <a href="https://fundreamer.itch.io/" target="_blank" class="social-card itchio">
-                <div class="social-icon">🎮</div>
-                <div class="social-info">
-                    <div class="social-name">Itch.io</div>
-                    <div class="social-desc">Мои игры и проекты</div>
+            <!-- Itch.io -->
+            <a href="https://fundreamer.itch.io/" target="_blank" class="link-card itchio">
+                <div class="icon-box">
+                    <i class="fa-brands fa-itch-io"></i>
                 </div>
-                <div class="arrow">→</div>
+                <div class="card-content">
+                    <span class="card-title">Itch.io</span>
+                    <span class="card-subtitle">Мои инди-проекты и игры</span>
+                </div>
+                <i class="fa-solid fa-arrow-right arrow-icon"></i>
             </a>
 
-            <a href="https://t.me/FND_Squad" target="_blank" class="social-card telegram">
-                <div class="social-icon">✈️</div>
-                <div class="social-info">
-                    <div class="social-name">Telegram</div>
-                    <div class="social-desc">Канал FND_Squad</div>
+            <!-- Telegram -->
+            <a href="https://t.me/FND_Squad" target="_blank" class="link-card telegram">
+                <div class="icon-box">
+                    <i class="fa-brands fa-telegram"></i>
                 </div>
-                <div class="arrow">→</div>
+                <div class="card-content">
+                    <span class="card-title">Telegram</span>
+                    <span class="card-subtitle">Канал FND_Squad</span>
+                </div>
+                <i class="fa-solid fa-arrow-right arrow-icon"></i>
             </a>
 
-            <a href="https://www.donationalerts.com/r/fundreamer365" target="_blank" class="social-card donate">
-                <div class="social-icon">💰</div>
-                <div class="social-info">
-                    <div class="social-name">DonationAlerts</div>
-                    <div class="social-desc">Поддержать проект</div>
+            <!-- DonationAlerts -->
+            <a href="https://www.donationalerts.com/r/fundreamer365" target="_blank" class="link-card donationalerts">
+                <div class="icon-box">
+                    <!-- Используем иконку сердца/доната, т.к. официального бренда нет в FA -->
+                    <i class="fa-solid fa-heart-pulse"></i>
                 </div>
-                <div class="arrow">→</div>
+                <div class="card-content">
+                    <span class="card-title">DonationAlerts</span>
+                    <span class="card-subtitle">Поддержать разработку</span>
+                </div>
+                <i class="fa-solid fa-arrow-right arrow-icon"></i>
             </a>
 
-            <a href="https://boosty.to/fundreamer365" target="_blank" class="social-card boosty">
-                <div class="social-icon">⭐</div>
-                <div class="social-info">
-                    <div class="social-name">Boosty</div>
-                    <div class="social-desc">Эксклюзивный контент</div>
+            <!-- Boosty -->
+            <a href="https://boosty.to/fundreamer365" target="_blank" class="link-card boosty">
+                <div class="icon-box">
+                    <!-- Используем иконку звезды/короны для эксклюзива -->
+                    <i class="fa-solid fa-crown"></i>
                 </div>
-                <div class="arrow">→</div>
+                <div class="card-content">
+                    <span class="card-title">Boosty</span>
+                    <span class="card-subtitle">Эксклюзивный контент</span>
+                </div>
+                <i class="fa-solid fa-arrow-right arrow-icon"></i>
             </a>
+
         </div>
 
-        <div class="footer">
-            <p>Made with 💜 by <a href="https://t.me/FND_Squad">FunDreamer</a></p>
-        </div>
+        <footer>
+            <p>&copy; 2026 FunDreamer. Made with code.</p>
+        </footer>
+
     </div>
+
 </body>
 </html>
