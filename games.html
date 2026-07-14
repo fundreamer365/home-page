@@ -1,1 +1,363 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FunDreamer | Projects & Games</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <!-- Шрифты и иконки -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <style>
+        :root {
+            --primary: #9d4edd;
+            --secondary: #ff006e;
+            --accent: #00f3ff;
+            --game-gold: #bfbe00;
+            --python-blue: #3776ab;
+            --unity-gray: #222c37;
+            --bg-dark: #050507;
+            --card-bg: rgba(20, 20, 25, 0.6);
+            --text-main: #ffffff;
+            --text-muted: #a0a0b0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- ОБЩИЕ ЭФФЕКТЫ (как на главной) --- */
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px; z-index: 999; pointer-events: none; opacity: 0.3;
+        }
+        #dynamic-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .bg-gradient { width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, #1a0b2e 0%, #050507 100%); }
+        #particle-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+
+        /* --- НАВИГАЦИЯ --- */
+        nav {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 100; display: flex; gap: 10px;
+            background: rgba(5, 5, 7, 0.85); padding: 10px 25px;
+            border-radius: 50px; backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        nav a {
+            color: var(--text-muted); text-decoration: none; font-weight: 600;
+            font-size: 0.9rem; padding: 8px 16px; border-radius: 30px; transition: 0.3s;
+        }
+        nav a:hover, nav a.active { color: #fff; background: rgba(255,255,255,0.1); }
+        nav a.active { color: var(--primary); background: rgba(157, 78, 221, 0.15); }
+
+        /* --- КОНТЕЙНЕР --- */
+        .main-wrapper {
+            max-width: 1000px; margin: 0 auto; padding: 100px 20px 60px;
+            position: relative; z-index: 1;
+        }
+
+        .page-header { text-align: center; margin-bottom: 60px; animation: fadeInDown 0.8s ease-out; }
+        .page-title {
+            font-family: 'Rajdhani', sans-serif; font-size: 3.5rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, #b8b8d0);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .page-subtitle { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* --- FEATURED PROJECT (THE LIMINAL) --- */
+        .featured-section {
+            margin-bottom: 60px; padding: 30px;
+            background: rgba(10, 10, 12, 0.6); border: 1px solid var(--game-gold);
+            border-radius: 24px; position: relative; overflow: hidden;
+            backdrop-filter: blur(10px); animation: fadeInUp 0.8s ease-out 0.2s backwards;
+            box-shadow: 0 0 40px rgba(191, 190, 0, 0.05);
+        }
+        .featured-badge {
+            position: absolute; top: 20px; left: 25px;
+            font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 700;
+            color: var(--game-gold); text-transform: uppercase; letter-spacing: 2px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .widget-frame {
+            margin-top: 20px; border-radius: 16px; overflow: hidden;
+            background: #000; border: 1px solid rgba(191, 190, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        .widget-frame:hover { border-color: var(--game-gold); box-shadow: 0 0 30px rgba(191, 190, 0, 0.15); }
+        .widget-frame iframe { width: 100% !important; max-width: 600px; height: 180px !important; display: block; margin: 0 auto; border: none !important; }
+
+        /* --- ФИЛЬТРЫ --- */
+        .filters { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; flex-wrap: wrap; }
+        .filter-btn {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted); padding: 10px 24px; border-radius: 12px;
+            cursor: pointer; font-family: 'Outfit', sans-serif; font-weight: 500; font-size: 0.95rem;
+            transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;
+        }
+        .filter-btn:hover { background: rgba(255,255,255,0.08); color: #fff; border-color: rgba(255,255,255,0.2); }
+        .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 0 20px rgba(157, 78, 221, 0.3); }
+
+        /* --- СЕТКА ПРОЕКТОВ --- */
+        .projects-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px; perspective: 1000px;
+        }
+
+        .project-card {
+            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px; padding: 25px; position: relative; overflow: hidden;
+            backdrop-filter: blur(15px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; height: 100%;
+            animation: fadeInUp 0.5s ease-out backwards;
+        }
+        
+        .project-card.hidden { display: none; }
+        .project-card:hover { transform: translateY(-8px); border-color: rgba(255,255,255,0.15); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+
+        .card-icon {
+            width: 60px; height: 60px; border-radius: 16px; margin-bottom: 20px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+        }
+        .type-game .card-icon { color: var(--game-gold); }
+        .type-python .card-icon { color: var(--python-blue); }
+
+        .card-title { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; }
+        .card-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
+        
+        .card-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+        .tag { font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; background: rgba(255,255,255,0.05); color: #888; font-family: monospace; }
+        .type-game .tag { color: var(--game-gold); background: rgba(191, 190, 0, 0.1); }
+        .type-python .tag { color: var(--python-blue); background: rgba(55, 118, 171, 0.1); }
+
+        .card-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: #fff; text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+        }
+        .card-link:hover { color: var(--primary); gap: 12px; }
+        .type-game .card-link:hover { color: var(--game-gold); }
+        .type-python .card-link:hover { color: var(--python-blue); }
+
+        footer { margin-top: 80px; text-align: center; font-size: 0.85rem; color: #444; }
+        footer a { color: var(--primary); text-decoration: none; }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 600px) {
+            .page-title { font-size: 2.5rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+            nav { width: 90%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scanlines"></div>
+    <div id="dynamic-bg"><div class="bg-gradient"></div></div>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Навигация -->
+    <nav>
+        <a href="index.html">Главная</a>
+        <a href="games.html" class="active">Проекты</a>
+        <a href="https://t.me/FND_Squad" target="_blank">Telegram</a>
+    </nav>
+
+    <div class="main-wrapper">
+        
+        <div class="page-header">
+            <h1 class="page-title">Мои Проекты</h1>
+            <p class="page-subtitle">Игры на Unity и приложения на Python. От концепта до релиза.</p>
+        </div>
+
+        <!-- Featured: The Liminal -->
+        <div class="featured-section">
+            <div class="featured-badge"><i class="fa-solid fa-star"></i> Featured Release</div>
+            <div class="widget-frame">
+                <iframe frameborder="0" src="https://itch.io/embed/4657223?border_width=0&bg_color=000000&fg_color=eeeeee&link_color=bfbe00&border_color=000000" width="600" height="180">
+                    <a href="https://fundreamer.itch.io/the-liminal">The Liminal by FunDreamer</a>
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Фильтры -->
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-layer-group"></i> Все проекты</button>
+            <button class="filter-btn" data-filter="game"><i class="fa-solid fa-gamepad"></i> Игры (Unity)</button>
+            <button class="filter-btn" data-filter="python"><i class="fa-brands fa-python"></i> Python Apps</button>
+        </div>
+
+        <!-- Сетка проектов -->
+        <div class="projects-grid">
+            
+            <!-- Пример игры 1 -->
+            <div class="project-card type-game" data-category="game">
+                <div class="card-icon"><i class="fa-solid fa-ghost"></i></div>
+                <h3 class="card-title">The Liminal</h3>
+                <p class="card-desc">Атмосферный хоррор-рогалик в стиле лиминальных пространств. Исследуй бесконечные коридоры и выживай.</p>
+                <div class="card-tags">
+                    <span class="tag">Unity</span><span class="tag">Horror</span><span class="tag">Roguelike</span>
+                </div>
+                <a href="https://fundreamer.itch.io/the-liminal" target="_blank" class="card-link">
+                    Играть на Itch.io <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Пример Python приложения 1 -->
+            <div class="project-card type-python" data-category="python">
+                <div class="card-icon"><i class="fa-solid fa-terminal"></i></div>
+                <h3 class="card-title">DevTool Pro</h3>
+                <p class="card-desc">Утилита для автоматизации рутинных задач разработчика. Написана на Python 3.13+ с GUI на PyQt6.</p>
+                <div class="card-tags">
+                    <span class="tag">Python 3.13+</span><span class="tag">PyQt6</span><span class="tag">Automation</span>
+                </div>
+                <a href="#" class="card-link">
+                    GitHub Repo <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+
+            <!-- Пример игры 2 -->
+            <div class="project-card type-game" data-category="game">
+                <div class="card-icon"><i class="fa-solid fa-crosshairs"></i></div>
+                <h3 class="card-title">Cyber Shooter</h3>
+                <p class="card-desc">Динамичный шутер в неоновом киберпанк-сеттинге. Прототип механик стрельбы и передвижения.</p>
+                <div class="card-tags">
+                    <span class="tag">Unity</span><span class="tag">FPS</span><span class="tag">Cyberpunk</span>
+                </div>
+                <a href="https://fundreamer.itch.io/" target="_blank" class="card-link">
+                    Страница проекта <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Пример Python приложения 2 -->
+            <div class="project-card type-python" data-category="python">
+                <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <h3 class="card-title">Stream Analytics</h3>
+                <p class="card-desc">Дашборд для анализа статистики Twitch стримов. Визуализация данных в реальном времени.</p>
+                <div class="card-tags">
+                    <span class="tag">Python</span><span class="tag">Twitch API</span><span class="tag">Data Viz</span>
+                </div>
+                <a href="#" class="card-link">
+                    GitHub Repo <i class="fa-brands fa-github"></i>
+                </a>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>&copy; 2026 FunDreamer. <a href="index.html">Вернуться на главную</a></p>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- 1. FILTER LOGIC ---
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.project-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Активная кнопка
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+
+                // Анимация фильтрации
+                cards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.classList.remove('hidden');
+                        // Небольшой сброс анимации для эффекта появления
+                        card.style.animation = 'none';
+                        card.offsetHeight; /* trigger reflow */
+                        card.style.animation = 'fadeInUp 0.5s ease-out forwards';
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // --- 2. PARTICLE SYSTEM (Упрощенная версия) ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let mouse = { x: null, y: null, radius: 150 };
+
+        window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
+
+        class Particle {
+            constructor(x, y, dx, dy, size, color) {
+                this.x = x; this.y = y; this.dx = dx; this.dy = dy; this.size = size; this.color = color;
+            }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill(); }
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.dx = -this.dx;
+                if (this.y > canvas.height || this.y < 0) this.dy = -this.dy;
+                let dist = Math.sqrt((mouse.x - this.x)**2 + (mouse.y - this.y)**2);
+                if (dist < mouse.radius + this.size) {
+                    if (mouse.x < this.x && this.x < canvas.width - 10) this.x += 2;
+                    if (mouse.x > this.x && this.x > 10) this.x -= 2;
+                    if (mouse.y < this.y && this.y < canvas.height - 10) this.y += 2;
+                    if (mouse.y > this.y && this.y > 10) this.y -= 2;
+                }
+                this.x += this.dx; this.y += this.dy; this.draw();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            const colors = ['#9d4edd', '#00f3ff', '#bfbe00'];
+            const baseColor = colors[Math.floor(Math.random() * colors.length)];
+            for (let i = 0; i < (canvas.height * canvas.width) / 15000; i++) {
+                particlesArray.push(new Particle(
+                    Math.random() * canvas.width, Math.random() * canvas.height,
+                    (Math.random() - 0.5) * 0.8, (Math.random() - 0.5) * 0.8,
+                    Math.random() * 2 + 0.5, baseColor
+                ));
+            }
+        }
+
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArray.forEach(p => p.update());
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let dist = ((particlesArray[a].x - particlesArray[b].x)**2) + ((particlesArray[a].y - particlesArray[b].y)**2);
+                    if (dist < (canvas.width/7) * (canvas.height/7)) {
+                        ctx.strokeStyle = `rgba(157, 78, 221, ${1 - dist/20000} * 0.1)`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('resize', () => { canvas.width = innerWidth; canvas.height = innerHeight; initParticles(); });
+        initParticles(); animateParticles();
+    </script>
+</body>
+</html>
