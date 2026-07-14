@@ -21,6 +21,7 @@
             --primary: #9d4edd;
             --secondary: #ff006e;
             --accent: #00f3ff;
+            --game-gold: #bfbe00; /* Цвет из твоего виджета */
             --bg-dark: #050507;
             --card-bg: rgba(20, 20, 25, 0.6);
             --text-main: #ffffff;
@@ -53,21 +54,17 @@
             z-index: -1; transition: opacity 1s ease-in-out;
         }
 
-        /* Стили для разных типов фонов */
         .bg-gradient { width: 100%; height: 100%; }
-        
         .bg-grid {
             background-image: 
                 linear-gradient(rgba(157, 78, 221, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(157, 78, 221, 0.1) 1px, transparent 1px);
             background-size: 40px 40px;
         }
-
         .bg-dots {
             background-image: radial-gradient(rgba(157, 78, 221, 0.2) 1px, transparent 1px);
             background-size: 20px 20px;
         }
-
         .bg-lines {
             background: repeating-linear-gradient(
                 45deg,
@@ -77,13 +74,11 @@
                 transparent 20px
             );
         }
-
         .bg-noise {
             background-color: #050507;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
         }
 
-        /* Canvas для частиц поверх CSS фона */
         #particle-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; pointer-events: none;
@@ -148,7 +143,7 @@
         }
 
         /* --- PROFILE --- */
-        .profile-section { margin-bottom: 50px; animation: fadeInDown 0.8s ease-out; }
+        .profile-section { margin-bottom: 40px; animation: fadeInDown 0.8s ease-out; }
         .avatar-wrapper { position: relative; width: 130px; height: 130px; margin: 0 auto 25px; }
         .avatar {
             width: 100%; height: 100%; border-radius: 50%;
@@ -184,7 +179,42 @@
         }
         .tech-tag:hover { color: var(--accent); border-color: var(--accent); box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
 
-        /* --- 3D CARDS --- */
+        /* --- FEATURED GAME SECTION (НОВОЕ) --- */
+        .featured-game {
+            width: 100%; margin: 20px 0 40px; padding: 25px;
+            background: rgba(10, 10, 12, 0.8);
+            border: 1px solid var(--game-gold);
+            border-radius: 24px; position: relative; overflow: hidden;
+            animation: fadeInUp 0.8s ease-out 0.3s backwards;
+            box-shadow: 0 0 30px rgba(191, 190, 0, 0.1), inset 0 0 20px rgba(191, 190, 0, 0.05);
+        }
+
+        .featured-label {
+            position: absolute; top: 15px; left: 25px;
+            font-family: 'Rajdhani', sans-serif; font-size: 0.8rem; font-weight: 700;
+            color: var(--game-gold); text-transform: uppercase; letter-spacing: 2px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .featured-label i { font-size: 1rem; }
+
+        .game-widget-container {
+            margin-top: 15px; border-radius: 12px; overflow: hidden;
+            background: #000; border: 1px solid rgba(191, 190, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        .game-widget-container:hover {
+            border-color: var(--game-gold);
+            box-shadow: 0 0 25px rgba(191, 190, 0, 0.2);
+            transform: scale(1.01);
+        }
+
+        /* Адаптивность iframe */
+        .game-widget-container iframe {
+            width: 100% !important; max-width: 550px; height: 165px !important;
+            display: block; margin: 0 auto; border: none !important;
+        }
+
+        /* --- SOCIAL LINKS --- */
         .links-container { display: flex; flex-direction: column; gap: 20px; width: 100%; perspective: 1000px; }
         
         .link-card {
@@ -205,11 +235,11 @@
         }
         .link-card:hover::after { opacity: 1; }
 
-        .link-card:nth-child(1) { animation-delay: 0.1s; }
-        .link-card:nth-child(2) { animation-delay: 0.2s; }
-        .link-card:nth-child(3) { animation-delay: 0.3s; }
-        .link-card:nth-child(4) { animation-delay: 0.4s; }
-        .link-card:nth-child(5) { animation-delay: 0.5s; }
+        .link-card:nth-child(1) { animation-delay: 0.4s; }
+        .link-card:nth-child(2) { animation-delay: 0.5s; }
+        .link-card:nth-child(3) { animation-delay: 0.6s; }
+        .link-card:nth-child(4) { animation-delay: 0.7s; }
+        .link-card:nth-child(5) { animation-delay: 0.8s; }
 
         .link-card::before {
             content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
@@ -284,27 +314,24 @@
             .content-area { padding: 0 10px; }
             .link-card { padding: 16px 20px; }
             .icon-box { width: 46px; height: 46px; font-size: 1.3rem; margin-right: 16px; }
+            .featured-game { padding: 20px 15px; }
+            .game-widget-container iframe { height: 140px !important; }
         }
     </style>
 </head>
 <body>
 
     <div class="scanlines"></div>
-    
-    <!-- Контейнер для динамического фона -->
     <div id="dynamic-bg"></div>
     <canvas id="particle-canvas"></canvas>
 
     <div class="main-wrapper">
-        
         <div class="content-area">
             
             <div class="profile-section">
                 <div class="avatar-wrapper">
                     <div class="avatar-ring"></div>
-                    <div class="avatar">
-                        <i class="fa-solid fa-gamepad"></i>
-                    </div>
+                    <div class="avatar"><i class="fa-solid fa-gamepad"></i></div>
                 </div>
                 
                 <div class="glitch-wrapper">
@@ -320,7 +347,20 @@
                 
                 <div class="tech-stack">
                     <span class="tech-tag">#Unity</span>
-                    <span class="tech-tag">#Python</span>
+                    <span class="tech-tag">#Python3.13+</span>
+                    <span class="tech-tag">#PyQt6</span>
+                </div>
+            </div>
+
+            <!-- НОВАЯ СЕКЦИЯ: ПРЕЗЕНТАЦИЯ ИГРЫ -->
+            <div class="featured-game">
+                <div class="featured-label">
+                    <i class="fa-solid fa-star"></i> Featured Project
+                </div>
+                <div class="game-widget-container">
+                    <iframe frameborder="0" src="https://itch.io/embed/4657223?border_width=0&bg_color=000000&fg_color=eeeeee&link_color=bfbe00&border_color=000000" width="550" height="165">
+                        <a href="https://fundreamer.itch.io/the-liminal">The Liminal by FunDreamer</a>
+                    </iframe>
                 </div>
             </div>
 
@@ -334,7 +374,7 @@
                             <span>LIVE NOW</span>
                         </div>
                         <span class="card-title">Twitch</span>
-                        <span class="card-subtitle" id="twitch-status">Стримы</span>
+                        <span class="card-subtitle" id="twitch-status">Стримы и геймплей</span>
                     </div>
                     <i class="fa-solid fa-arrow-right arrow-icon"></i>
                 </a>
@@ -343,7 +383,7 @@
                     <div class="icon-box"><i class="fa-brands fa-itch-io"></i></div>
                     <div class="card-content">
                         <span class="card-title">Itch.io</span>
-                        <span class="card-subtitle">Мои инди-проекты</span>
+                        <span class="card-subtitle">Все мои проекты</span>
                     </div>
                     <i class="fa-solid fa-arrow-right arrow-icon"></i>
                 </a>
@@ -352,7 +392,7 @@
                     <div class="icon-box"><i class="fa-brands fa-telegram"></i></div>
                     <div class="card-content">
                         <span class="card-title">Telegram</span>
-                        <span class="card-subtitle">Канал FND Squad</span>
+                        <span class="card-subtitle">Канал FND_Squad</span>
                     </div>
                     <i class="fa-solid fa-arrow-right arrow-icon"></i>
                 </a>
@@ -361,7 +401,7 @@
                     <div class="icon-box"><i class="fa-solid fa-heart-pulse"></i></div>
                     <div class="card-content">
                         <span class="card-title">DonationAlerts</span>
-                        <span class="card-subtitle">Поддержать меня</span>
+                        <span class="card-subtitle">Поддержать разработку</span>
                     </div>
                     <i class="fa-solid fa-arrow-right arrow-icon"></i>
                 </a>
@@ -378,185 +418,102 @@
             </div>
 
             <footer>
-                <p>&copy; 2026 FunDreamer
+                <p>&copy; 2026 FunDreamer. <a href="#">Code & Dreams.</a></p>
             </footer>
 
         </div>
-
     </div>
 
     <script>
-        // --- 1. RANDOM BACKGROUND SYSTEM (15 VARIANTS) ---
+        // --- 1. RANDOM BACKGROUND SYSTEM ---
         const bgContainer = document.getElementById('dynamic-bg');
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        
-        // Массив из 15 различных фонов
         const backgrounds = [
-            // 1. Классический киберпанк градиент
             { type: 'gradient', css: 'radial-gradient(circle at 50% 50%, #1a0b2e 0%, #050507 100%)' },
-            // 2. Темно-синяя бездна
             { type: 'gradient', css: 'linear-gradient(to bottom, #020c1b, #0a192f)' },
-            // 3. Неоновый закат
             { type: 'gradient', css: 'linear-gradient(135deg, #2b1055, #7597de)' },
-            // 4. Матрица (темно-зеленый)
             { type: 'gradient', css: 'radial-gradient(circle, #0d2818 0%, #000000 100%)' },
-            // 5. Красная тревога
             { type: 'gradient', css: 'linear-gradient(to top, #3a1c1c, #050507)' },
-            // 6. Холодный металл
             { type: 'gradient', css: 'linear-gradient(to right, #232526, #414345)' },
-            // 7. Глубокий космос
             { type: 'gradient', css: 'radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%)' },
-            // 8. Фиолетовый туман
             { type: 'gradient', css: 'conic-gradient(from 90deg at 50% 50%, #050507 0%, #240b36 50%, #050507 100%)' },
-            // 9. Кибер-сетка
             { type: 'grid', css: 'linear-gradient(to bottom, #0a0a12 0%, #000000 100%)' },
-            // 10. Точки данных
             { type: 'dots', css: 'linear-gradient(to bottom, #050507 0%, #0a0a12 100%)' },
-            // 11. Диагональные линии
             { type: 'lines', css: 'linear-gradient(to bottom, #050507 0%, #000000 100%)' },
-            // 12. Шум (Noise)
             { type: 'noise', css: '#050507' },
-            // 13. Оранжевый закат (Cyberpunk 2077 style)
             { type: 'gradient', css: 'linear-gradient(to bottom, #2b1507, #050507)' },
-            // 14. Ледяной холод
             { type: 'gradient', css: 'linear-gradient(to top, #0f2027, #203a43, #2c5364)' },
-            // 15. Чистая тьма с акцентом
             { type: 'gradient', css: 'radial-gradient(circle at 80% 20%, #1a0b2e 0%, #000000 60%)' }
         ];
 
         function applyRandomBackground() {
             const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-            
-            // Очищаем контейнер
             bgContainer.innerHTML = '';
-            bgContainer.className = ''; 
-            
-            // Применяем базовый цвет/градиент
             const div = document.createElement('div');
             div.className = 'bg-gradient';
             div.style.background = randomBg.css;
             bgContainer.appendChild(div);
 
-            // Добавляем оверлеи (сетка, точки и т.д.)
-            if (randomBg.type === 'grid') {
+            if (['grid', 'dots', 'lines', 'noise'].includes(randomBg.type)) {
                 const overlay = document.createElement('div');
-                overlay.className = 'bg-grid';
-                overlay.style.position = 'absolute';
-                overlay.style.top = '0'; overlay.style.left = '0';
-                overlay.style.width = '100%'; overlay.style.height = '100%';
-                bgContainer.appendChild(overlay);
-            } else if (randomBg.type === 'dots') {
-                const overlay = document.createElement('div');
-                overlay.className = 'bg-dots';
-                overlay.style.position = 'absolute';
-                overlay.style.top = '0'; overlay.style.left = '0';
-                overlay.style.width = '100%'; overlay.style.height = '100%';
-                bgContainer.appendChild(overlay);
-            } else if (randomBg.type === 'lines') {
-                const overlay = document.createElement('div');
-                overlay.className = 'bg-lines';
-                overlay.style.position = 'absolute';
-                overlay.style.top = '0'; overlay.style.left = '0';
-                overlay.style.width = '100%'; overlay.style.height = '100%';
-                bgContainer.appendChild(overlay);
-            } else if (randomBg.type === 'noise') {
-                const overlay = document.createElement('div');
-                overlay.className = 'bg-noise';
-                overlay.style.position = 'absolute';
-                overlay.style.top = '0'; overlay.style.left = '0';
-                overlay.style.width = '100%'; overlay.style.height = '100%';
+                overlay.className = `bg-${randomBg.type}`;
+                Object.assign(overlay.style, { position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' });
                 bgContainer.appendChild(overlay);
             }
         }
-
-        // Запускаем при загрузке
         applyRandomBackground();
 
-
-        // --- 2. PARTICLE SYSTEM (Поверх любого фона) ---
+        // --- 2. PARTICLE SYSTEM ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
         let particlesArray;
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
         let mouse = { x: null, y: null, radius: 150 };
 
-        window.addEventListener('mousemove', function(event) {
-            mouse.x = event.x;
-            mouse.y = event.y;
-        });
+        window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
 
         class Particle {
-            constructor(x, y, directionX, directionY, size, color) {
-                this.x = x; this.y = y;
-                this.directionX = directionX; this.directionY = directionY;
-                this.size = size; this.color = color;
+            constructor(x, y, dx, dy, size, color) {
+                this.x = x; this.y = y; this.dx = dx; this.dy = dy; this.size = size; this.color = color;
             }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill(); }
             update() {
-                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
-                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
-
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
-                let distance = Math.sqrt(dx*dx + dy*dy);
-                
-                if (distance < mouse.radius + this.size){
-                    if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 2;
-                    if (mouse.x > this.x && this.x > this.size * 10) this.x -= 2;
-                    if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 2;
-                    if (mouse.y > this.y && this.y > this.size * 10) this.y -= 2;
+                if (this.x > canvas.width || this.x < 0) this.dx = -this.dx;
+                if (this.y > canvas.height || this.y < 0) this.dy = -this.dy;
+                let dist = Math.sqrt((mouse.x - this.x)**2 + (mouse.y - this.y)**2);
+                if (dist < mouse.radius + this.size) {
+                    if (mouse.x < this.x && this.x < canvas.width - 10) this.x += 2;
+                    if (mouse.x > this.x && this.x > 10) this.x -= 2;
+                    if (mouse.y < this.y && this.y < canvas.height - 10) this.y += 2;
+                    if (mouse.y > this.y && this.y > 10) this.y -= 2;
                 }
-
-                this.x += this.directionX;
-                this.y += this.directionY;
-                this.draw();
+                this.x += this.dx; this.y += this.dy; this.draw();
             }
         }
 
         function initParticles() {
             particlesArray = [];
-            // Адаптивное количество частиц
-            let numberOfParticles = (canvas.height * canvas.width) / 12000;
-            
-            // Цвет частиц зависит от выбранного фона (немного рандома)
             const colors = ['#9d4edd', '#00f3ff', '#ff006e', '#ffffff'];
             const baseColor = colors[Math.floor(Math.random() * colors.length)];
-
-            for (let i = 0; i < numberOfParticles; i++) {
-                let size = (Math.random() * 2) + 0.5;
-                let x = Math.random() * innerWidth;
-                let y = Math.random() * innerHeight;
-                let directionX = (Math.random() * 1) - 0.5;
-                let directionY = (Math.random() * 1) - 0.5;
-                particlesArray.push(new Particle(x, y, directionX, directionY, size, baseColor));
+            for (let i = 0; i < (canvas.height * canvas.width) / 12000; i++) {
+                particlesArray.push(new Particle(
+                    Math.random() * canvas.width, Math.random() * canvas.height,
+                    (Math.random() - 0.5), (Math.random() - 0.5),
+                    Math.random() * 2 + 0.5, baseColor
+                ));
             }
         }
 
         function animateParticles() {
             requestAnimationFrame(animateParticles);
-            ctx.clearRect(0,0,innerWidth, innerHeight);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArray.forEach(p => p.update());
             
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-            }
-            connectParticles();
-        }
-
-        function connectParticles() {
-            let opacityValue = 1;
             for (let a = 0; a < particlesArray.length; a++) {
                 for (let b = a; b < particlesArray.length; b++) {
-                    let distance = ((particlesArray[a].x - particlesArray[b].x) ** 2) + 
-                                   ((particlesArray[a].y - particlesArray[b].y) ** 2);
-                    if (distance < (canvas.width/7) * (canvas.height/7)) {
-                        opacityValue = 1 - (distance/15000);
-                        ctx.strokeStyle = `rgba(157, 78, 221, ${opacityValue * 0.15})`;
+                    let dist = ((particlesArray[a].x - particlesArray[b].x)**2) + ((particlesArray[a].y - particlesArray[b].y)**2);
+                    if (dist < (canvas.width/7) * (canvas.height/7)) {
+                        ctx.strokeStyle = `rgba(157, 78, 221, ${1 - dist/15000} * 0.15)`;
                         ctx.lineWidth = 0.5;
                         ctx.beginPath();
                         ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
@@ -567,84 +524,51 @@
             }
         }
 
-        window.addEventListener('resize', function(){
-            canvas.width = innerWidth;
-            canvas.height = innerHeight;
-            initParticles();
-        });
+        window.addEventListener('resize', () => { canvas.width = innerWidth; canvas.height = innerHeight; initParticles(); });
+        initParticles(); animateParticles();
 
-        initParticles();
-        animateParticles();
-
-
-        // --- 3. 3D TILT EFFECT FOR CARDS ---
-        const cards = document.querySelectorAll('.link-card');
-
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
+        // --- 3. 3D TILT EFFECT ---
+        document.querySelectorAll('.link-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
                 card.style.setProperty('--mouse-x', `${x}px`);
                 card.style.setProperty('--mouse-y', `${y}px`);
-
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = ((y - centerY) / centerY) * -5;
-                const rotateY = ((x - centerX) / centerX) * 5;
-
+                const rotateX = ((y - rect.height/2) / (rect.height/2)) * -5;
+                const rotateY = ((x - rect.width/2) / (rect.width/2)) * 5;
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
             });
-
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
             });
         });
 
-
-        // --- 4. TWITCH STATUS CHECKER ---
-        const TWITCH_USERNAME = 'fundreamer365';
-        const CHECK_INTERVAL = 60000; 
-
+        // --- 4. TWITCH STATUS ---
         async function checkTwitchStatus() {
             const card = document.getElementById('twitch-card');
             const statusText = document.getElementById('twitch-status');
-            
             try {
-                const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${TWITCH_USERNAME}`, {
+                const res = await fetch(`https://api.twitch.tv/helix/streams?user_login=fundreamer365`, {
                     headers: { 'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko' }
                 });
-
-                if (!response.ok) throw new Error('API Error');
-                const data = await response.json();
-                
-                if (data.data && data.data.length > 0) {
+                const data = await res.json();
+                if (data.data?.length > 0) {
                     card.classList.add('is-live');
-                    const streamTitle = data.data[0].title;
-                    const viewers = data.data[0].viewer_count;
-                    statusText.innerHTML = `<span style="color:#fff">${streamTitle}</span> • 👁 ${viewers}`;
-                    statusText.style.fontSize = '0.8rem';
-                    statusText.style.lineHeight = '1.3';
+                    statusText.innerHTML = `<span style="color:#fff">${data.data[0].title}</span> • 👁 ${data.data[0].viewer_count}`;
+                    statusText.style.fontSize = '0.8rem'; statusText.style.lineHeight = '1.3';
                 } else {
                     card.classList.remove('is-live');
                     statusText.textContent = 'Стримы и геймплей';
-                    statusText.style.fontSize = '';
-                    statusText.style.lineHeight = '';
+                    statusText.style.fontSize = ''; statusText.style.lineHeight = '';
                 }
-            } catch (error) {
-                console.log('Twitch status check failed:', error);
+            } catch (e) {
                 card.classList.remove('is-live');
                 statusText.textContent = 'Стримы и геймплей';
             }
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            checkTwitchStatus();
-            setInterval(checkTwitchStatus, CHECK_INTERVAL);
-        });
+        checkTwitchStatus();
+        setInterval(checkTwitchStatus, 60000);
     </script>
-
 </body>
 </html>
