@@ -21,7 +21,7 @@
             --primary: #9d4edd;
             --secondary: #ff006e;
             --accent: #00f3ff;
-            --game-gold: #bfbe00; /* Цвет из твоего виджета */
+            --game-gold: #bfbe00;
             --bg-dark: #050507;
             --card-bg: rgba(20, 20, 25, 0.6);
             --text-main: #ffffff;
@@ -39,6 +39,22 @@
             overflow-x: hidden;
             position: relative;
         }
+
+        /* --- НАВИГАЦИЯ (НОВОЕ) --- */
+        nav {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 1000; display: flex; gap: 10px;
+            background: rgba(5, 5, 7, 0.85); padding: 10px 25px;
+            border-radius: 50px; backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        nav a {
+            color: var(--text-muted); text-decoration: none; font-weight: 600;
+            font-size: 0.9rem; padding: 8px 16px; border-radius: 30px; transition: 0.3s;
+        }
+        nav a:hover, nav a.active { color: #fff; background: rgba(255,255,255,0.1); }
+        nav a.active { color: var(--primary); background: rgba(157, 78, 221, 0.15); }
 
         /* --- CRT SCANLINE EFFECT --- */
         .scanlines {
@@ -87,7 +103,7 @@
         /* --- LAYOUT --- */
         .main-wrapper {
             display: flex; justify-content: center; align-items: flex-start;
-            padding: 60px 20px; max-width: 800px; margin: 0 auto;
+            padding: 100px 20px 60px; max-width: 800px; margin: 0 auto;
             min-height: 100vh; position: relative; z-index: 1;
         }
 
@@ -179,7 +195,7 @@
         }
         .tech-tag:hover { color: var(--accent); border-color: var(--accent); box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
 
-        /* --- FEATURED GAME SECTION (НОВОЕ) --- */
+        /* --- FEATURED GAME SECTION --- */
         .featured-game {
             width: 100%; margin: 20px 0 40px; padding: 25px;
             background: rgba(10, 10, 12, 0.8);
@@ -208,7 +224,6 @@
             transform: scale(1.01);
         }
 
-        /* Адаптивность iframe */
         .game-widget-container iframe {
             width: 100% !important; max-width: 550px; height: 165px !important;
             display: block; margin: 0 auto; border: none !important;
@@ -316,10 +331,18 @@
             .icon-box { width: 46px; height: 46px; font-size: 1.3rem; margin-right: 16px; }
             .featured-game { padding: 20px 15px; }
             .game-widget-container iframe { height: 140px !important; }
+            nav { width: 90%; justify-content: center; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Навигация -->
+    <nav>
+        <a href="index.html" class="active">Главная</a>
+        <a href="games.html">Проекты</a>
+        <a href="https://t.me/FND_Squad" target="_blank">Telegram</a>
+    </nav>
 
     <div class="scanlines"></div>
     <div id="dynamic-bg"></div>
@@ -352,7 +375,7 @@
                 </div>
             </div>
 
-            <!-- НОВАЯ СЕКЦИЯ: ПРЕЗЕНТАЦИЯ ИГРЫ -->
+            <!-- СЕКЦИЯ: ПРЕЗЕНТАЦИЯ ИГРЫ THE LIMINAL -->
             <div class="featured-game">
                 <div class="featured-label">
                     <i class="fa-solid fa-star"></i> Featured Project
