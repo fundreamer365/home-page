@@ -19,7 +19,6 @@
             --accent: #00f3ff;
             --game-gold: #bfbe00;
             --python-blue: #3776ab;
-            --unity-gray: #222c37;
             --bg-dark: #050507;
             --card-bg: rgba(20, 20, 25, 0.6);
             --text-main: #ffffff;
@@ -37,7 +36,7 @@
             position: relative;
         }
 
-        /* --- ОБЩИЕ ЭФФЕКТЫ (как на главной) --- */
+        /* --- ОБЩИЕ ЭФФЕКТЫ --- */
         .scanlines {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
@@ -150,9 +149,11 @@
             padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.1);
             transition: 0.3s;
         }
-        .card-link:hover { color: var(--primary); gap: 12px; }
-        .type-game .card-link:hover { color: var(--game-gold); }
-        .type-python .card-link:hover { color: var(--python-blue); }
+        .card-link:hover { gap: 12px; }
+        .type-game .card-link { color: var(--game-gold); }
+        .type-game .card-link:hover { text-shadow: 0 0 10px rgba(191, 190, 0, 0.5); }
+        .type-python .card-link { color: var(--python-blue); }
+        .type-python .card-link:hover { text-shadow: 0 0 10px rgba(55, 118, 171, 0.5); }
 
         footer { margin-top: 80px; text-align: center; font-size: 0.85rem; color: #444; }
         footer a { color: var(--primary); text-decoration: none; }
@@ -177,14 +178,13 @@
     <nav>
         <a href="index.html">Главная</a>
         <a href="games.html" class="active">Проекты</a>
-        <a href="https://t.me/FND_Squad" target="_blank">Telegram</a>
     </nav>
 
     <div class="main-wrapper">
         
         <div class="page-header">
             <h1 class="page-title">Мои Проекты</h1>
-            <p class="page-subtitle">Игры на Unity и приложения на Python. От концепта до релиза.</p>
+            <p class="page-subtitle">Игры на Unity и приложения на Python. Скачивай, играй, используй.</p>
         </div>
 
         <!-- Featured: The Liminal -->
@@ -207,7 +207,7 @@
         <!-- Сетка проектов -->
         <div class="projects-grid">
             
-            <!-- Пример игры 1 -->
+            <!-- THE LIMINAL -->
             <div class="project-card type-game" data-category="game">
                 <div class="card-icon"><i class="fa-solid fa-ghost"></i></div>
                 <h3 class="card-title">The Liminal</h3>
@@ -220,42 +220,42 @@
                 </a>
             </div>
 
-            <!-- Пример Python приложения 1 -->
+            <!-- TWITCH TTS -->
             <div class="project-card type-python" data-category="python">
-                <div class="card-icon"><i class="fa-solid fa-terminal"></i></div>
-                <h3 class="card-title">DevTool Pro</h3>
-                <p class="card-desc">Утилита для автоматизации рутинных задач разработчика. Написана на Python 3.13+ с GUI на PyQt6.</p>
+                <div class="card-icon"><i class="fa-solid fa-microphone-lines"></i></div>
+                <h3 class="card-title">Twitch TTS</h3>
+                <p class="card-desc">Озвучка донатов и сообщений с Twitch в реальном времени. Настроимый голос, фильтры слов, интеграция с DonationAlerts.</p>
                 <div class="card-tags">
-                    <span class="tag">Python 3.13+</span><span class="tag">PyQt6</span><span class="tag">Automation</span>
+                    <span class="tag">Python 3.13+</span><span class="tag">PyQt6</span><span class="tag">Twitch API</span>
                 </div>
-                <a href="#" class="card-link">
-                    GitHub Repo <i class="fa-brands fa-github"></i>
+                <a href="downloads/TwitchTTS.exe" download class="card-link">
+                    Скачать .exe <i class="fa-solid fa-download"></i>
                 </a>
             </div>
 
-            <!-- Пример игры 2 -->
-            <div class="project-card type-game" data-category="game">
-                <div class="card-icon"><i class="fa-solid fa-crosshairs"></i></div>
-                <h3 class="card-title">Cyber Shooter</h3>
-                <p class="card-desc">Динамичный шутер в неоновом киберпанк-сеттинге. Прототип механик стрельбы и передвижения.</p>
+            <!-- DREAMER CLOCK -->
+            <div class="project-card type-python" data-category="python">
+                <div class="card-icon"><i class="fa-solid fa-clock"></i></div>
+                <h3 class="card-title">Dreamer Clock</h3>
+                <p class="card-desc">Стильные часы для рабочего стола с кастомными темами, виджетами и синхронизацией времени. Минимализм и киберпанк.</p>
                 <div class="card-tags">
-                    <span class="tag">Unity</span><span class="tag">FPS</span><span class="tag">Cyberpunk</span>
+                    <span class="tag">Python 3.13+</span><span class="tag">PyQt6</span><span class="tag">GUI</span>
                 </div>
-                <a href="https://fundreamer.itch.io/" target="_blank" class="card-link">
-                    Страница проекта <i class="fa-solid fa-arrow-right"></i>
+                <a href="downloads/DreamerClock.exe" download class="card-link">
+                    Скачать .exe <i class="fa-solid fa-download"></i>
                 </a>
             </div>
 
-            <!-- Пример Python приложения 2 -->
+            <!-- F BROWSER -->
             <div class="project-card type-python" data-category="python">
-                <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
-                <h3 class="card-title">Stream Analytics</h3>
-                <p class="card-desc">Дашборд для анализа статистики Twitch стримов. Визуализация данных в реальном времени.</p>
+                <div class="card-icon"><i class="fa-solid fa-globe"></i></div>
+                <h3 class="card-title">F Browser</h3>
+                <p class="card-desc">Кастомный браузер с branded start page, вкладками сверху, поиском снизу, парольным менеджером и настройками в JSON.</p>
                 <div class="card-tags">
-                    <span class="tag">Python</span><span class="tag">Twitch API</span><span class="tag">Data Viz</span>
+                    <span class="tag">Python 3.13+</span><span class="tag">PyQt6</span><span class="tag">WebEngine</span>
                 </div>
-                <a href="#" class="card-link">
-                    GitHub Repo <i class="fa-brands fa-github"></i>
+                <a href="downloads/FBrowser.exe" download class="card-link">
+                    Скачать .exe <i class="fa-solid fa-download"></i>
                 </a>
             </div>
 
@@ -274,19 +274,16 @@
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Активная кнопка
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
 
                 const filter = btn.getAttribute('data-filter');
 
-                // Анимация фильтрации
                 cards.forEach(card => {
                     if (filter === 'all' || card.getAttribute('data-category') === filter) {
                         card.classList.remove('hidden');
-                        // Небольшой сброс анимации для эффекта появления
                         card.style.animation = 'none';
-                        card.offsetHeight; /* trigger reflow */
+                        card.offsetHeight;
                         card.style.animation = 'fadeInUp 0.5s ease-out forwards';
                     } else {
                         card.classList.add('hidden');
@@ -295,7 +292,7 @@
             });
         });
 
-        // --- 2. PARTICLE SYSTEM (Упрощенная версия) ---
+        // --- 2. PARTICLE SYSTEM ---
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particlesArray;
