@@ -1,595 +1,411 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>FunDreamer | Game Dev & Python Creator</title>
-    <meta name="description" content="Разработчик игр на Unity и приложений на Python. Стримы, инди-проекты и эксклюзивный контент.">
-    
-    <!-- FAVICON -->
-    <link rel="icon" type="image/png" href="favicon.png">
-    
-    <!-- Шрифты и иконки -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>FunDreamer — разработчик игр и приложений</title>
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
-        :root {
-            --primary: #9d4edd;
-            --secondary: #ff006e;
-            --accent: #00f3ff;
-            --game-gold: #bfbe00;
-            --bg-dark: #050507;
-            --card-bg: rgba(20, 20, 25, 0.6);
-            --text-main: #ffffff;
-            --text-muted: #a0a0b0;
-            --live-red: #e91916;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
+            font-family: 'Inter', sans-serif;
+            background: #0b0b0e;
+            color: #ededee;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- НАВИГАЦИЯ --- */
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== НАВИГАЦИЯ ===== */
         nav {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            z-index: 1000; display: flex; gap: 10px;
-            background: rgba(5, 5, 7, 0.85); padding: 10px 25px;
-            border-radius: 50px; backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        nav a {
-            color: var(--text-muted); text-decoration: none; font-weight: 600;
-            font-size: 0.9rem; padding: 8px 16px; border-radius: 30px; transition: 0.3s;
-        }
-        nav a:hover, nav a.active { color: #fff; background: rgba(255,255,255,0.1); }
-        nav a.active { color: var(--primary); background: rgba(157, 78, 221, 0.15); }
-
-        /* --- CRT SCANLINE EFFECT --- */
-        .scanlines {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
-            background-size: 100% 4px;
-            z-index: 999; pointer-events: none; opacity: 0.3;
+            padding: 24px 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
         }
 
-        /* --- DYNAMIC BACKGROUND CONTAINER --- */
-        #dynamic-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; transition: opacity 1s ease-in-out;
+        .logo {
+            font-weight: 700;
+            font-size: 1.3rem;
+            letter-spacing: -0.3px;
+            color: #fff;
         }
 
-        .bg-gradient { width: 100%; height: 100%; }
-        .bg-grid {
-            background-image: 
-                linear-gradient(rgba(157, 78, 221, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(157, 78, 221, 0.1) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-        .bg-dots {
-            background-image: radial-gradient(rgba(157, 78, 221, 0.2) 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-        .bg-lines {
-            background: repeating-linear-gradient(
-                45deg,
-                rgba(157, 78, 221, 0.05),
-                rgba(157, 78, 221, 0.05) 1px,
-                transparent 1px,
-                transparent 20px
-            );
-        }
-        .bg-noise {
-            background-color: #050507;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+        .logo span {
+            color: #6c5ce7;
         }
 
-        #particle-canvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none;
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: #8a8a8f;
         }
 
-        /* --- LAYOUT --- */
-        .main-wrapper {
-            display: flex; justify-content: center; align-items: flex-start;
-            padding: 100px 20px 60px; max-width: 800px; margin: 0 auto;
-            min-height: 100vh; position: relative; z-index: 1;
+        .nav-links a {
+            transition: color 0.2s;
         }
 
-        .content-area {
-            width: 100%; text-align: center;
-            display: flex; flex-direction: column; align-items: center;
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #fff;
         }
 
-        /* --- GLITCH TITLE --- */
-        .glitch-wrapper { position: relative; display: inline-block; margin-bottom: 10px; cursor: default; }
-        
-        .glitch-text {
-            font-family: 'Rajdhani', sans-serif; font-size: 4rem; font-weight: 700;
-            letter-spacing: 4px; text-transform: uppercase; position: relative;
-            color: var(--text-main);
+        .nav-links a.active {
+            color: #6c5ce7;
         }
 
-        .glitch-text::before, .glitch-text::after {
-            content: attr(data-text); position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%; opacity: 0; pointer-events: none;
+        /* ===== ГЕРОЙ ===== */
+        .hero {
+            padding: 80px 0 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 24px;
         }
 
-        .glitch-wrapper:hover .glitch-text { animation: glitch-skew 0.3s infinite; color: var(--primary); }
-        .glitch-wrapper:hover .glitch-text::before {
-            opacity: 0.8; color: var(--secondary); z-index: -1;
-            animation: glitch-anim-1 0.4s infinite linear alternate-reverse;
-        }
-        .glitch-wrapper:hover .glitch-text::after {
-            opacity: 0.8; color: var(--accent); z-index: -2;
-            animation: glitch-anim-2 0.4s infinite linear alternate-reverse;
-        }
-
-        @keyframes glitch-skew {
-            0% { transform: skew(0deg); } 20% { transform: skew(-2deg); }
-            40% { transform: skew(2deg); } 60% { transform: skew(-1deg); }
-            80% { transform: skew(1deg); } 100% { transform: skew(0deg); }
-        }
-        @keyframes glitch-anim-1 {
-            0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 0); }
-            20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, 0); }
-            40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 0); }
-            60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, 0); }
-            80% { clip-path: inset(10% 0 70% 0); transform: translate(-2px, 0); }
-            100% { clip-path: inset(30% 0 50% 0); transform: translate(2px, 0); }
-        }
-        @keyframes glitch-anim-2 {
-            0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, 0); }
-            20% { clip-path: inset(30% 0 20% 0); transform: translate(-2px, 0); }
-            40% { clip-path: inset(70% 0 10% 0); transform: translate(2px, 0); }
-            60% { clip-path: inset(20% 0 50% 0); transform: translate(-2px, 0); }
-            80% { clip-path: inset(50% 0 30% 0); transform: translate(2px, 0); }
-            100% { clip-path: inset(5% 0 80% 0); transform: translate(-2px, 0); }
+        .hero-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 6px 16px;
+            border-radius: 100px;
+            background: rgba(108, 92, 231, 0.12);
+            color: #6c5ce7;
+            border: 1px solid rgba(108, 92, 231, 0.15);
         }
 
-        /* --- PROFILE --- */
-        .profile-section { margin-bottom: 40px; animation: fadeInDown 0.8s ease-out; }
-        .avatar-wrapper { position: relative; width: 130px; height: 130px; margin: 0 auto 25px; }
-        .avatar {
-            width: 100%; height: 100%; border-radius: 50%;
-            background: linear-gradient(135deg, #1a1a20, #0a0a0f);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 3.5rem; border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 40px rgba(157, 78, 221, 0.2);
-            position: relative; z-index: 2; overflow: hidden;
-        }
-        .avatar i {
-            background: linear-gradient(to bottom, #fff, #aaa);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .avatar-ring {
-            position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
-            border-radius: 50%; border: 2px solid transparent;
-            border-top-color: var(--primary); border-right-color: var(--secondary);
-            animation: spin 4s linear infinite;
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            max-width: 720px;
         }
 
-        .role-badge {
-            display: inline-block; padding: 8px 20px;
-            background: rgba(157, 78, 221, 0.1); border: 1px solid rgba(157, 78, 221, 0.3);
-            border-radius: 30px; color: var(--primary); font-size: 0.9rem; font-weight: 600;
-            margin-bottom: 20px; backdrop-filter: blur(10px); letter-spacing: 1px;
-        }
-        .bio { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; max-width: 450px; margin: 0 auto; }
-        .tech-stack { margin-top: 20px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-        .tech-tag { 
-            font-size: 0.85rem; color: #888; font-family: monospace; 
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
-            padding: 6px 12px; border-radius: 8px; transition: 0.3s;
-        }
-        .tech-tag:hover { color: var(--accent); border-color: var(--accent); box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
-
-        /* --- FEATURED GAME SECTION --- */
-        .featured-game {
-            width: 100%; margin: 20px 0 40px; padding: 25px;
-            background: rgba(10, 10, 12, 0.8);
-            border: 1px solid var(--game-gold);
-            border-radius: 24px; position: relative; overflow: hidden;
-            animation: fadeInUp 0.8s ease-out 0.3s backwards;
-            box-shadow: 0 0 30px rgba(191, 190, 0, 0.1), inset 0 0 20px rgba(191, 190, 0, 0.05);
+        .hero h1 span {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .featured-label {
-            position: absolute; top: 15px; left: 25px;
-            font-family: 'Rajdhani', sans-serif; font-size: 0.8rem; font-weight: 700;
-            color: var(--game-gold); text-transform: uppercase; letter-spacing: 2px;
-            display: flex; align-items: center; gap: 8px;
-        }
-        .featured-label i { font-size: 1rem; }
-
-        .game-widget-container {
-            margin-top: 15px; border-radius: 12px; overflow: hidden;
-            background: #000; border: 1px solid rgba(191, 190, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-        .game-widget-container:hover {
-            border-color: var(--game-gold);
-            box-shadow: 0 0 25px rgba(191, 190, 0, 0.2);
-            transform: scale(1.01);
+        .hero p {
+            font-size: 1.2rem;
+            color: #8a8a8f;
+            max-width: 560px;
+            margin-top: 4px;
         }
 
-        .game-widget-container iframe {
-            width: 100% !important; max-width: 550px; height: 165px !important;
-            display: block; margin: 0 auto; border: none !important;
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+            flex-wrap: wrap;
         }
 
-        /* --- SOCIAL LINKS --- */
-        .links-container { display: flex; flex-direction: column; gap: 20px; width: 100%; perspective: 1000px; }
-        
-        .link-card {
-            position: relative; display: flex; align-items: center;
-            padding: 20px 28px; background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px;
-            text-decoration: none; color: white;
-            transition: transform 0.1s ease, box-shadow 0.3s ease, border-color 0.3s;
-            backdrop-filter: blur(15px); overflow: hidden;
-            transform-style: preserve-3d;
-            animation: fadeInUp 0.6s ease-out backwards;
+        .btn-primary {
+            background: #6c5ce7;
+            color: #fff;
+            font-weight: 600;
+            padding: 12px 32px;
+            border-radius: 12px;
+            transition: background 0.2s, transform 0.15s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
         }
 
-        .link-card::after {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.1) 0%, transparent 60%);
-            opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 2;
-        }
-        .link-card:hover::after { opacity: 1; }
-
-        .link-card:nth-child(1) { animation-delay: 0.4s; }
-        .link-card:nth-child(2) { animation-delay: 0.5s; }
-        .link-card:nth-child(3) { animation-delay: 0.6s; }
-        .link-card:nth-child(4) { animation-delay: 0.7s; }
-        .link-card:nth-child(5) { animation-delay: 0.8s; }
-
-        .link-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
-            background: var(--hover-color); opacity: 0; transition: opacity 0.3s;
+        .btn-primary:hover {
+            background: #5a4bd1;
+            transform: translateY(-1px);
         }
 
-        .link-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 15px 35px -10px rgba(0,0,0,0.6);
-        }
-        .link-card:hover::before { opacity: 1; }
-
-        .icon-box {
-            width: 54px; height: 54px; border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.6rem; margin-right: 24px;
-            background: rgba(255, 255, 255, 0.03); color: var(--hover-color);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(255,255,255,0.05);
+        .btn-secondary {
+            background: rgba(255,255,255,0.04);
+            color: #ededee;
+            font-weight: 600;
+            padding: 12px 32px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: background 0.2s;
         }
 
-        .link-card:hover .icon-box { 
-            background: var(--hover-color); color: #fff; 
-            transform: scale(1.1) rotate(5deg); 
-            box-shadow: 0 0 20px var(--hover-color);
-            border-color: transparent;
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.08);
         }
 
-        .card-content { flex: 1; text-align: left; z-index: 3; }
-        .card-title { font-weight: 700; font-size: 1.2rem; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
-        .card-subtitle { font-size: 0.9rem; color: var(--text-muted); transition: color 0.3s; }
-
-        .arrow-icon { opacity: 0.2; transition: all 0.3s; z-index: 3; }
-        .link-card:hover .arrow-icon { opacity: 1; transform: translateX(8px); color: var(--hover-color); }
-
-        .twitch { --hover-color: #9146FF; }
-        .itchio { --hover-color: #FA5C5C; }
-        .telegram { --hover-color: #2AABEE; }
-        .donationalerts { --hover-color: #28b392; }
-        .boosty { --hover-color: #F47F20; }
-
-        /* LIVE STATUS */
-        .twitch.is-live { border-color: rgba(233, 25, 22, 0.5); background: rgba(233, 25, 22, 0.08); }
-        .twitch.is-live .icon-box { background: var(--live-red); color: white; box-shadow: 0 0 20px rgba(233, 25, 22, 0.6); }
-        .live-indicator {
-            display: none; align-items: center; gap: 8px; font-size: 0.75rem;
-            font-weight: 800; color: var(--live-red); text-transform: uppercase;
-            letter-spacing: 1.5px; margin-bottom: 6px;
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255,255,255,0.04);
         }
-        .live-dot {
-            width: 8px; height: 8px; background-color: var(--live-red);
-            border-radius: 50%; animation: pulse-live 1.5s infinite;
-        }
-        @keyframes pulse-live {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 25, 22, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(233, 25, 22, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 25, 22, 0); }
-        }
-        .twitch.is-live .live-indicator { display: flex; }
-        .twitch.is-live .card-subtitle { color: #fff; }
 
-        footer { margin-top: 80px; font-size: 0.85rem; color: #444; }
-        footer a { color: var(--primary); text-decoration: none; transition: 0.3s; }
-        footer a:hover { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+        .hero-stats div {
+            display: flex;
+            flex-direction: column;
+        }
 
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .hero-stats .number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .hero-stats .label {
+            font-size: 0.85rem;
+            color: #8a8a8f;
+        }
+
+        /* ===== СЕКЦИЯ ПРОЕКТОВ (НА ГЛАВНОЙ) ===== */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .section-sub {
+            color: #8a8a8f;
+            margin-bottom: 40px;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .project-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 20px;
+            padding: 28px 24px;
+            transition: background 0.25s, border-color 0.25s, transform 0.2s;
+            cursor: default;
+        }
+
+        .project-card:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.08);
+            transform: translateY(-4px);
+        }
+
+        .project-card .icon {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            color: #6c5ce7;
+        }
+
+        .project-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .project-card p {
+            color: #8a8a8f;
+            font-size: 0.95rem;
+        }
+
+        .project-card .tag {
+            display: inline-block;
+            margin-top: 14px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 14px;
+            border-radius: 100px;
+            background: rgba(108, 92, 231, 0.08);
+            color: #a29bfe;
+            border: 1px solid rgba(108, 92, 231, 0.08);
+        }
+
+        .project-card .tag.gold {
+            color: #fdcb6e;
+            background: rgba(253, 203, 110, 0.06);
+            border-color: rgba(253, 203, 110, 0.08);
+        }
+
+        /* ===== ФУТЕР ===== */
+        footer {
+            padding: 40px 0 32px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            color: #5a5a5f;
+            font-size: 0.9rem;
+        }
+
+        footer .socials {
+            display: flex;
+            gap: 20px;
+        }
+
+        footer .socials a {
+            color: #5a5a5f;
+            transition: color 0.2s;
+        }
+
+        footer .socials a:hover {
+            color: #ededee;
+        }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.6rem;
+            }
+            .nav-links {
+                gap: 20px;
+                font-size: 0.85rem;
+            }
+            .hero-stats {
+                gap: 24px;
+                flex-wrap: wrap;
+            }
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
 
         @media (max-width: 480px) {
-            .glitch-text { font-size: 2.8rem; }
-            .content-area { padding: 0 10px; }
-            .link-card { padding: 16px 20px; }
-            .icon-box { width: 46px; height: 46px; font-size: 1.3rem; margin-right: 16px; }
-            .featured-game { padding: 20px 15px; }
-            .game-widget-container iframe { height: 140px !important; }
-            nav { width: 90%; justify-content: center; }
+            .container {
+                padding: 0 16px;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+            .hero-actions {
+                flex-direction: column;
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Навигация (Telegram убран) -->
-    <nav>
-        <a href="index.html" class="active">Главная</a>
-        <a href="games.html">Проекты</a>
-    </nav>
+    <div class="container">
 
-    <div class="scanlines"></div>
-    <div id="dynamic-bg"></div>
-    <canvas id="particle-canvas"></canvas>
+        <!-- НАВИГАЦИЯ -->
+        <nav>
+            <div class="logo">Fun<span>Dreamer</span></div>
+            <div class="nav-links">
+                <a href="index.html" class="active">Главная</a>
+                <a href="games.html">Проекты</a>
+            </div>
+        </nav>
 
-    <div class="main-wrapper">
-        <div class="content-area">
-            
-            <div class="profile-section">
-                <div class="avatar-wrapper">
-                    <div class="avatar-ring"></div>
-                    <div class="avatar"><i class="fa-solid fa-gamepad"></i></div>
+        <!-- ГЕРОЙ -->
+        <section class="hero">
+            <div class="hero-badge"><i class="fa-regular fa-star" style="margin-right:6px;"></i> Инди-разработчик</div>
+            <h1>Создаю игры <br><span>и приложения</span> с душой</h1>
+            <p>Unity, Python, PyQt — от хорроров до полезных утилит. Всё, что я делаю, — для людей.</p>
+            <div class="hero-actions">
+                <a href="games.html" class="btn-primary">Смотреть проекты</a>
+                <a href="https://www.twitch.tv/fundreamer365/about" target="_blank" class="btn-secondary">
+                    <i class="fa-brands fa-twitch" style="margin-right:8px;"></i> Twitch
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div>
+                    <span class="number">4+</span>
+                    <span class="label">проектов</span>
                 </div>
-                
-                <div class="glitch-wrapper">
-                    <h1 class="glitch-text" data-text="FunDreamer">FunDreamer</h1>
+                <div>
+                    <span class="number">Unity</span>
+                    <span class="label">игровой движок</span>
                 </div>
-                
-                <div class="role-badge">Game Developer & Creator</div>
-                
-                <p class="bio">
-                    Разрабатываю игры на Unity и приложения на Python.<br>
-                    Создаю миры, пишу код и стримлю процесс.
-                </p>
-                
-                <div class="tech-stack">
-                    <span class="tech-tag">#Unity</span>
-                    <span class="tech-tag">#Python</span>
+                <div>
+                    <span class="number">Python</span>
+                    <span class="label">основной стек</span>
                 </div>
             </div>
+        </section>
 
-            <!-- СЕКЦИЯ: ПРЕЗЕНТАЦИЯ ИГРЫ THE LIMINAL -->
-            <div class="featured-game">
-                <div class="featured-label">
-                    <i class="fa-solid fa-star"></i> Лучший проект
-                </div>
-                <div class="game-widget-container">
-                    <iframe frameborder="0" src="https://itch.io/embed/4657223?border_width=0&bg_color=000000&fg_color=eeeeee&link_color=bfbe00&border_color=000000" width="550" height="165">
-                        <a href="https://fundreamer.itch.io/the-liminal">The Liminal by FunDreamer</a>
-                    </iframe>
-                </div>
+        <!-- ПРОЕКТЫ НА ГЛАВНОЙ (ПРЕВЬЮ) -->
+        <h2 class="section-title">Избранное</h2>
+        <p class="section-sub">Мои лучшие работы на данный момент</p>
+
+        <div class="project-grid">
+            <div class="project-card">
+                <div class="icon"><i class="fa-solid fa-ghost"></i></div>
+                <h3>The Liminal</h3>
+                <p>Атмосферный хоррор в лиминальных пространствах. Исследование и страх.</p>
+                <span class="tag gold">★ Лучший</span>
             </div>
-
-            <div class="links-container">
-                
-                <a href="https://www.twitch.tv/fundreamer365/about" target="_blank" class="link-card twitch" id="twitch-card">
-                    <div class="icon-box"><i class="fa-brands fa-twitch"></i></div>
-                    <div class="card-content">
-                        <div class="live-indicator">
-                            <span class="live-dot"></span>
-                            <span>LIVE NOW</span>
-                        </div>
-                        <span class="card-title">Twitch</span>
-                        <span class="card-subtitle" id="twitch-status">Стримы и геймплей</span>
-                    </div>
-                    <i class="fa-solid fa-arrow-right arrow-icon"></i>
-                </a>
-
-                <a href="https://fundreamer.itch.io/" target="_blank" class="link-card itchio">
-                    <div class="icon-box"><i class="fa-brands fa-itch-io"></i></div>
-                    <div class="card-content">
-                        <span class="card-title">Itch.io</span>
-                        <span class="card-subtitle">Все мои проекты</span>
-                    </div>
-                    <i class="fa-solid fa-arrow-right arrow-icon"></i>
-                </a>
-
-                <a href="https://t.me/FND_Squad" target="_blank" class="link-card telegram">
-                    <div class="icon-box"><i class="fa-brands fa-telegram"></i></div>
-                    <div class="card-content">
-                        <span class="card-title">Telegram</span>
-                        <span class="card-subtitle">Канал FND Squad</span>
-                    </div>
-                    <i class="fa-solid fa-arrow-right arrow-icon"></i>
-                </a>
-
-                <a href="https://www.donationalerts.com/r/fundreamer365" target="_blank" class="link-card donationalerts">
-                    <div class="icon-box"><i class="fa-solid fa-heart-pulse"></i></div>
-                    <div class="card-content">
-                        <span class="card-title">DonationAlerts</span>
-                        <span class="card-subtitle">Поддержать меня</span>
-                    </div>
-                    <i class="fa-solid fa-arrow-right arrow-icon"></i>
-                </a>
-
-                <a href="https://boosty.to/fundreamer365" target="_blank" class="link-card boosty">
-                    <div class="icon-box"><i class="fa-solid fa-crown"></i></div>
-                    <div class="card-content">
-                        <span class="card-title">Boosty</span>
-                        <span class="card-subtitle">Эксклюзивный контент</span>
-                    </div>
-                    <i class="fa-solid fa-arrow-right arrow-icon"></i>
-                </a>
-
+            <div class="project-card">
+                <div class="icon"><i class="fa-solid fa-globe"></i></div>
+                <h3>F Browser</h3>
+                <p>Кастомный браузер на PyQt с вкладками, парольным менеджером и стартовой страницей.</p>
+                <span class="tag">Python</span>
             </div>
-
-            <footer>
-                <p>&copy; 2026 FunDreamer
-            </footer>
-
+            <div class="project-card">
+                <div class="icon"><i class="fa-solid fa-microphone-lines"></i></div>
+                <h3>Twitch TTS</h3>
+                <p>Озвучка сообщений из чата в реальном времени. Полная кастомизация.</p>
+                <span class="tag">PyQt</span>
+            </div>
         </div>
+
+        <!-- ФУТЕР с GitHub -->
+        <footer>
+            <span>&copy; 2026 FunDreamer</span>
+            <div class="socials">
+                <a href="https://github.com/fundreamer365" target="_blank" title="GitHub">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="https://t.me/FND_Squad" target="_blank" title="Telegram">
+                    <i class="fa-brands fa-telegram"></i>
+                </a>
+                <a href="https://fundreamer.itch.io/" target="_blank" title="Itch.io">
+                    <i class="fa-brands fa-itch-io"></i>
+                </a>
+                <a href="https://boosty.to/fundreamer365" target="_blank" title="Boosty">
+                    <i class="fa-solid fa-crown"></i>
+                </a>
+                <a href="https://www.donationalerts.com/r/fundreamer365" target="_blank" title="DonationAlerts">
+                    <i class="fa-solid fa-heart"></i>
+                </a>
+            </div>
+        </footer>
+
     </div>
 
-    <script>
-        // --- 1. RANDOM BACKGROUND SYSTEM ---
-        const bgContainer = document.getElementById('dynamic-bg');
-        const backgrounds = [
-            { type: 'gradient', css: 'radial-gradient(circle at 50% 50%, #1a0b2e 0%, #050507 100%)' },
-            { type: 'gradient', css: 'linear-gradient(to bottom, #020c1b, #0a192f)' },
-            { type: 'gradient', css: 'linear-gradient(135deg, #2b1055, #7597de)' },
-            { type: 'gradient', css: 'radial-gradient(circle, #0d2818 0%, #000000 100%)' },
-            { type: 'gradient', css: 'linear-gradient(to top, #3a1c1c, #050507)' },
-            { type: 'gradient', css: 'linear-gradient(to right, #232526, #414345)' },
-            { type: 'gradient', css: 'radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%)' },
-            { type: 'gradient', css: 'conic-gradient(from 90deg at 50% 50%, #050507 0%, #240b36 50%, #050507 100%)' },
-            { type: 'grid', css: 'linear-gradient(to bottom, #0a0a12 0%, #000000 100%)' },
-            { type: 'dots', css: 'linear-gradient(to bottom, #050507 0%, #0a0a12 100%)' },
-            { type: 'lines', css: 'linear-gradient(to bottom, #050507 0%, #000000 100%)' },
-            { type: 'noise', css: '#050507' },
-            { type: 'gradient', css: 'linear-gradient(to bottom, #2b1507, #050507)' },
-            { type: 'gradient', css: 'linear-gradient(to top, #0f2027, #203a43, #2c5364)' },
-            { type: 'gradient', css: 'radial-gradient(circle at 80% 20%, #1a0b2e 0%, #000000 60%)' }
-        ];
-
-        function applyRandomBackground() {
-            const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-            bgContainer.innerHTML = '';
-            const div = document.createElement('div');
-            div.className = 'bg-gradient';
-            div.style.background = randomBg.css;
-            bgContainer.appendChild(div);
-
-            if (['grid', 'dots', 'lines', 'noise'].includes(randomBg.type)) {
-                const overlay = document.createElement('div');
-                overlay.className = `bg-${randomBg.type}`;
-                Object.assign(overlay.style, { position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' });
-                bgContainer.appendChild(overlay);
-            }
-        }
-        applyRandomBackground();
-
-        // --- 2. PARTICLE SYSTEM ---
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        let particlesArray;
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        let mouse = { x: null, y: null, radius: 150 };
-
-        window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
-
-        class Particle {
-            constructor(x, y, dx, dy, size, color) {
-                this.x = x; this.y = y; this.dx = dx; this.dy = dy; this.size = size; this.color = color;
-            }
-            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill(); }
-            update() {
-                if (this.x > canvas.width || this.x < 0) this.dx = -this.dx;
-                if (this.y > canvas.height || this.y < 0) this.dy = -this.dy;
-                let dist = Math.sqrt((mouse.x - this.x)**2 + (mouse.y - this.y)**2);
-                if (dist < mouse.radius + this.size) {
-                    if (mouse.x < this.x && this.x < canvas.width - 10) this.x += 2;
-                    if (mouse.x > this.x && this.x > 10) this.x -= 2;
-                    if (mouse.y < this.y && this.y < canvas.height - 10) this.y += 2;
-                    if (mouse.y > this.y && this.y > 10) this.y -= 2;
-                }
-                this.x += this.dx; this.y += this.dy; this.draw();
-            }
-        }
-
-        function initParticles() {
-            particlesArray = [];
-            const colors = ['#9d4edd', '#00f3ff', '#ff006e', '#ffffff'];
-            const baseColor = colors[Math.floor(Math.random() * colors.length)];
-            for (let i = 0; i < (canvas.height * canvas.width) / 12000; i++) {
-                particlesArray.push(new Particle(
-                    Math.random() * canvas.width, Math.random() * canvas.height,
-                    (Math.random() - 0.5), (Math.random() - 0.5),
-                    Math.random() * 2 + 0.5, baseColor
-                ));
-            }
-        }
-
-        function animateParticles() {
-            requestAnimationFrame(animateParticles);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particlesArray.forEach(p => p.update());
-            
-            for (let a = 0; a < particlesArray.length; a++) {
-                for (let b = a; b < particlesArray.length; b++) {
-                    let dist = ((particlesArray[a].x - particlesArray[b].x)**2) + ((particlesArray[a].y - particlesArray[b].y)**2);
-                    if (dist < (canvas.width/7) * (canvas.height/7)) {
-                        ctx.strokeStyle = `rgba(157, 78, 221, ${1 - dist/15000} * 0.15)`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        window.addEventListener('resize', () => { canvas.width = innerWidth; canvas.height = innerHeight; initParticles(); });
-        initParticles(); animateParticles();
-
-        // --- 3. 3D TILT EFFECT ---
-        document.querySelectorAll('.link-card').forEach(card => {
-            card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
-                const rotateX = ((y - rect.height/2) / (rect.height/2)) * -5;
-                const rotateY = ((x - rect.width/2) / (rect.width/2)) * 5;
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-            });
-        });
-
-        // --- 4. TWITCH STATUS ---
-        async function checkTwitchStatus() {
-            const card = document.getElementById('twitch-card');
-            const statusText = document.getElementById('twitch-status');
-            try {
-                const res = await fetch(`https://api.twitch.tv/helix/streams?user_login=fundreamer365`, {
-                    headers: { 'Client-ID': 'kimne78kx3ncx6brgo4mv6wki5h1ko' }
-                });
-                const data = await res.json();
-                if (data.data?.length > 0) {
-                    card.classList.add('is-live');
-                    statusText.innerHTML = `<span style="color:#fff">${data.data[0].title}</span> • 👁 ${data.data[0].viewer_count}`;
-                    statusText.style.fontSize = '0.8rem'; statusText.style.lineHeight = '1.3';
-                } else {
-                    card.classList.remove('is-live');
-                    statusText.textContent = 'Стримы и геймплей';
-                    statusText.style.fontSize = ''; statusText.style.lineHeight = '';
-                }
-            } catch (e) {
-                card.classList.remove('is-live');
-                statusText.textContent = 'Стримы и геймплей';
-            }
-        }
-        checkTwitchStatus();
-        setInterval(checkTwitchStatus, 60000);
-    </script>
 </body>
 </html>
