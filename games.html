@@ -1,360 +1,383 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FunDreamer | Projects & Games</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    
-    <!-- Шрифты и иконки -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Проекты — FunDreamer</title>
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
-        :root {
-            --primary: #9d4edd;
-            --secondary: #ff006e;
-            --accent: #00f3ff;
-            --game-gold: #bfbe00;
-            --python-blue: #3776ab;
-            --bg-dark: #050507;
-            --card-bg: rgba(20, 20, 25, 0.6);
-            --text-main: #ffffff;
-            --text-muted: #a0a0b0;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
+            font-family: 'Inter', sans-serif;
+            background: #0b0b0e;
+            color: #ededee;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- ОБЩИЕ ЭФФЕКТЫ --- */
-        .scanlines {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
-            background-size: 100% 4px; z-index: 999; pointer-events: none; opacity: 0.3;
+        a {
+            text-decoration: none;
+            color: inherit;
         }
-        #dynamic-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-        .bg-gradient { width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, #1a0b2e 0%, #050507 100%); }
-        #particle-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
-        /* --- НАВИГАЦИЯ --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
         nav {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            z-index: 100; display: flex; gap: 10px;
-            background: rgba(5, 5, 7, 0.85); padding: 10px 25px;
-            border-radius: 50px; backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        nav a {
-            color: var(--text-muted); text-decoration: none; font-weight: 600;
-            font-size: 0.9rem; padding: 8px 16px; border-radius: 30px; transition: 0.3s;
-        }
-        nav a:hover, nav a.active { color: #fff; background: rgba(255,255,255,0.1); }
-        nav a.active { color: var(--primary); background: rgba(157, 78, 221, 0.15); }
-
-        /* --- КОНТЕЙНЕР --- */
-        .main-wrapper {
-            max-width: 1000px; margin: 0 auto; padding: 100px 20px 60px;
-            position: relative; z-index: 1;
+            padding: 24px 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
         }
 
-        .page-header { text-align: center; margin-bottom: 60px; animation: fadeInDown 0.8s ease-out; }
-        .page-title {
-            font-family: 'Rajdhani', sans-serif; font-size: 3.5rem; font-weight: 700;
-            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;
-            background: linear-gradient(to right, #fff, #b8b8d0);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        .logo {
+            font-weight: 700;
+            font-size: 1.3rem;
+            letter-spacing: -0.3px;
+            color: #fff;
         }
-        .page-subtitle { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
 
-        /* --- FEATURED PROJECT (THE LIMINAL) --- */
-        .featured-section {
-            margin-bottom: 60px; padding: 30px;
-            background: rgba(10, 10, 12, 0.6); border: 1px solid var(--game-gold);
-            border-radius: 24px; position: relative; overflow: hidden;
-            backdrop-filter: blur(10px); animation: fadeInUp 0.8s ease-out 0.2s backwards;
-            box-shadow: 0 0 40px rgba(191, 190, 0, 0.05);
+        .logo span {
+            color: #6c5ce7;
         }
-        .featured-badge {
-            position: absolute; top: 20px; left: 25px;
-            font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 700;
-            color: var(--game-gold); text-transform: uppercase; letter-spacing: 2px;
-            display: flex; align-items: center; gap: 8px;
-        }
-        .widget-frame {
-            margin-top: 20px; border-radius: 16px; overflow: hidden;
-            background: #000; border: 1px solid rgba(191, 190, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-        .widget-frame:hover { border-color: var(--game-gold); box-shadow: 0 0 30px rgba(191, 190, 0, 0.15); }
-        .widget-frame iframe { width: 100% !important; max-width: 600px; height: 180px !important; display: block; margin: 0 auto; border: none !important; }
 
-        /* --- ФИЛЬТРЫ --- */
-        .filters { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; flex-wrap: wrap; }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: #8a8a8f;
+        }
+
+        .nav-links a {
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #fff;
+        }
+
+        .nav-links a.active {
+            color: #6c5ce7;
+        }
+
+        .page-header {
+            padding: 48px 0 24px;
+        }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header p {
+            color: #8a8a8f;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin: 32px 0 40px;
+            flex-wrap: wrap;
+        }
+
         .filter-btn {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
-            color: var(--text-muted); padding: 10px 24px; border-radius: 12px;
-            cursor: pointer; font-family: 'Outfit', sans-serif; font-weight: 500; font-size: 0.95rem;
-            transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            color: #8a8a8f;
+            padding: 8px 24px;
+            border-radius: 100px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        .filter-btn:hover { background: rgba(255,255,255,0.08); color: #fff; border-color: rgba(255,255,255,0.2); }
-        .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 0 20px rgba(157, 78, 221, 0.3); }
 
-        /* --- СЕТКА ПРОЕКТОВ --- */
-        .projects-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px; perspective: 1000px;
+        .filter-btn:hover {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+        }
+
+        .filter-btn.active {
+            background: #6c5ce7;
+            color: #fff;
+            border-color: #6c5ce7;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
         }
 
         .project-card {
-            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 20px; padding: 25px; position: relative; overflow: hidden;
-            backdrop-filter: blur(15px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex; flex-direction: column; height: 100%;
-            animation: fadeInUp 0.5s ease-out backwards;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 20px;
+            padding: 28px 24px;
+            transition: background 0.25s, border-color 0.25s, transform 0.2s;
         }
-        
-        .project-card.hidden { display: none; }
-        .project-card:hover { transform: translateY(-8px); border-color: rgba(255,255,255,0.15); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
 
-        .card-icon {
-            width: 60px; height: 60px; border-radius: 16px; margin-bottom: 20px;
-            display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+        .project-card:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.08);
+            transform: translateY(-4px);
         }
-        .type-game .card-icon { color: var(--game-gold); }
-        .type-python .card-icon { color: var(--python-blue); }
 
-        .card-title { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; }
-        .card-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
-        
-        .card-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-        .tag { font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; background: rgba(255,255,255,0.05); color: #888; font-family: monospace; }
-        .type-game .tag { color: var(--game-gold); background: rgba(191, 190, 0, 0.1); }
-        .type-python .tag { color: var(--python-blue); background: rgba(55, 118, 171, 0.1); }
-
-        .card-link {
-            display: inline-flex; align-items: center; gap: 8px;
-            color: #fff; text-decoration: none; font-weight: 600; font-size: 0.9rem;
-            padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.1);
-            transition: 0.3s;
+        .project-card.hidden {
+            display: none;
         }
-        .card-link:hover { gap: 12px; }
-        .type-game .card-link { color: var(--game-gold); }
-        .type-game .card-link:hover { text-shadow: 0 0 10px rgba(191, 190, 0, 0.5); }
-        .type-python .card-link { color: var(--python-blue); }
-        .type-python .card-link:hover { text-shadow: 0 0 10px rgba(55, 118, 171, 0.5); }
 
-        footer { margin-top: 80px; text-align: center; font-size: 0.85rem; color: #444; }
-        footer a { color: var(--primary); text-decoration: none; }
+        .project-card .icon {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+        }
 
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .project-card .icon.game {
+            color: #fdcb6e;
+        }
+        .project-card .icon.python {
+            color: #6c5ce7;
+        }
 
-        @media (max-width: 600px) {
-            .page-title { font-size: 2.5rem; }
-            .projects-grid { grid-template-columns: 1fr; }
-            nav { width: 90%; justify-content: center; }
+        .project-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .project-card p {
+            color: #8a8a8f;
+            font-size: 0.95rem;
+        }
+
+        .project-card .tags {
+            margin-top: 14px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .project-card .tags span {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            padding: 4px 14px;
+            border-radius: 100px;
+            background: rgba(255,255,255,0.04);
+            color: #8a8a8f;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .project-card .tags span.gold {
+            color: #fdcb6e;
+            background: rgba(253, 203, 110, 0.06);
+            border-color: rgba(253, 203, 110, 0.08);
+        }
+
+        .project-card .tags span.purple {
+            color: #a29bfe;
+            background: rgba(108, 92, 231, 0.06);
+            border-color: rgba(108, 92, 231, 0.08);
+        }
+
+        .project-card .link {
+            display: inline-block;
+            margin-top: 18px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #6c5ce7;
+            transition: color 0.2s;
+        }
+
+        .project-card .link:hover {
+            color: #a29bfe;
+        }
+
+        footer {
+            padding: 40px 0 32px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            color: #5a5a5f;
+            font-size: 0.9rem;
+        }
+
+        footer .socials {
+            display: flex;
+            gap: 20px;
+        }
+
+        footer .socials a {
+            color: #5a5a5f;
+            transition: color 0.2s;
+        }
+
+        footer .socials a:hover {
+            color: #ededee;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 20px;
+                font-size: 0.85rem;
+            }
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+            .filters {
+                gap: 8px;
+            }
+            .filter-btn {
+                padding: 6px 16px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="scanlines"></div>
-    <div id="dynamic-bg"><div class="bg-gradient"></div></div>
-    <canvas id="particle-canvas"></canvas>
+    <div class="container">
+        <nav>
+            <div class="logo">Fun<span>Dreamer</span></div>
+            <div class="nav-links">
+                <a href="index.html">Главная</a>
+                <a href="games.html" class="active">Проекты</a>
+            </div>
+        </nav>
 
-    <!-- Навигация -->
-    <nav>
-        <a href="index.html">Главная</a>
-        <a href="games.html" class="active">Проекты</a>
-    </nav>
-
-    <div class="main-wrapper">
-        
         <div class="page-header">
-            <h1 class="page-title">Мои Проекты</h1>
-            <p class="page-subtitle">Игры на Unity и приложения на Python. Скачивай, играй, используй.</p>
+            <h1>Все проекты</h1>
+            <p>Игры, приложения, утилиты — всё, что я создал.</p>
         </div>
 
-        <!-- Featured: The Liminal -->
-        <div class="featured-section">
-            <div class="featured-badge"><i class="fa-solid fa-star"></i> Лучший проект</div>
-            <div class="widget-frame">
-                <iframe frameborder="0" src="https://itch.io/embed/4657223?border_width=0&bg_color=000000&fg_color=eeeeee&link_color=bfbe00&border_color=000000" width="600" height="180">
-                    <a href="https://fundreamer.itch.io/the-liminal">The Liminal by FunDreamer</a>
-                </iframe>
-            </div>
-        </div>
-
-        <!-- Фильтры -->
         <div class="filters">
-            <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-layer-group"></i> Все проекты</button>
-            <button class="filter-btn" data-filter="game"><i class="fa-solid fa-gamepad"></i> Игры</button>
-            <button class="filter-btn" data-filter="python"><i class="fa-brands fa-python"></i> Приложения</button>
+            <button class="filter-btn active" data-filter="all">Все</button>
+            <button class="filter-btn" data-filter="game">🎮 Игры</button>
+            <button class="filter-btn" data-filter="python">🐍 Приложения</button>
         </div>
 
-        <!-- Сетка проектов -->
-        <div class="projects-grid">
-            
-            <!-- THE LIMINAL -->
-            <div class="project-card type-game" data-category="game">
-                <div class="card-icon"><i class="fa-solid fa-ghost"></i></div>
-                <h3 class="card-title">The Liminal</h3>
-                <p class="card-desc">Атмосферный хоррор в стиле лиминальных пространств. Исследуй бесконечные коридоры и выживай.</p>
-                <div class="card-tags">
-                    <span class="tag">Unity</span><span class="tag">Horror</span><span class="tag">Roguelike</span>
+        <div class="project-grid" id="projectGrid">
+
+            <!-- The Liminal -->
+            <div class="project-card" data-category="game">
+                <div class="icon game"><i class="fa-solid fa-ghost"></i></div>
+                <h3>The Liminal</h3>
+                <p>Атмосферный хоррор в лиминальных пространствах. Исследование, саунд-дизайн, procedurally generated коридоры.</p>
+                <div class="tags">
+                    <span class="gold">★ Лучший</span>
+                    <span>Unity</span>
+                    <span>Horror</span>
                 </div>
-                <a href="https://fundreamer.itch.io/the-liminal" target="_blank" class="card-link">
-                    Страница проекта <i class="fa-solid fa-arrow-right"></i>
-                </a>
+                <a href="https://fundreamer.itch.io/the-liminal" target="_blank" class="link">Подробнее →</a>
             </div>
 
-            <!-- F BROWSER -->
-            <div class="project-card type-python" data-category="python">
-                <div class="card-icon"><i class="fa-solid fa-globe"></i></div>
-                <h3 class="card-title">F Browser</h3>
-                <p class="card-desc">Кастомный браузер с branded start page, вкладками сверху, поиском снизу и парольным менеджером. На ~40% эффективнее Яндекс Браузера.</p>
-                <div class="card-tags">
-                    <span class="tag">Python</span><span class="tag">PyQt6</span><span class="tag">WebEngine</span>
+            <!-- F Browser -->
+            <div class="project-card" data-category="python">
+                <div class="icon python"><i class="fa-solid fa-globe"></i></div>
+                <h3>F Browser</h3>
+                <p>Кастомный браузер на PyQt6: вкладки, стартовая страница, парольный менеджер и лёгкий вес.</p>
+                <div class="tags">
+                    <span class="purple">Python</span>
+                    <span>PyQt6</span>
+                    <span>WebEngine</span>
                 </div>
-                <a href="https://fundreamer.itch.io/f-browser" target="_blank" class="card-link">
-                    Скачать на Itch.io <i class="fa-solid fa-download"></i>
-                </a>
+                <a href="https://fundreamer.itch.io/f-browser" target="_blank" class="link">Скачать →</a>
             </div>
 
-            <!-- TWITCH TTS -->
-            <div class="project-card type-python" data-category="python">
-                <div class="card-icon"><i class="fa-solid fa-microphone-lines"></i></div>
-                <h3 class="card-title">Twitch TTS</h3>
-                <p class="card-desc">Озвучка сообщений с Twitch в реальном времени. Настроимый голос, фильтры слов, полная интеграция со стримом.</p>
-                <div class="card-tags">
-                    <span class="tag">Python 3.13+</span><span class="tag">PyQt6</span>
+            <!-- Twitch TTS -->
+            <div class="project-card" data-category="python">
+                <div class="icon python"><i class="fa-solid fa-microphone-lines"></i></div>
+                <h3>Twitch TTS</h3>
+                <p>Озвучка сообщений из чата Twitch в реальном времени. Голоса, фильтры, интеграция со стримом.</p>
+                <div class="tags">
+                    <span class="purple">Python 3.13+</span>
+                    <span>PyQt6</span>
                 </div>
-                <a href="https://fundreamer.itch.io/twitch-tts" target="_blank" class="card-link">
-                    Скачать на Itch.io <i class="fa-solid fa-download"></i>
-                </a>
+                <a href="https://fundreamer.itch.io/twitch-tts" target="_blank" class="link">Скачать →</a>
             </div>
 
-            <!-- DREAMER CLOCK -->
-            <div class="project-card type-python" data-category="python">
-                <div class="card-icon"><i class="fa-solid fa-clock"></i></div>
-                <h3 class="card-title">Dreamer Clock</h3>
-                <p class="card-desc">Стильные часы для рабочего стола с кастомными темами и виджетами.</p>
-                <div class="card-tags">
-                    <span class="tag">Python 3.13+</span><span class="tag">PyQt6</span><span class="tag">GUI</span>
+            <!-- Dreamer Clock -->
+            <div class="project-card" data-category="python">
+                <div class="icon python"><i class="fa-solid fa-clock"></i></div>
+                <h3>Dreamer Clock</h3>
+                <p>Стильные часы для рабочего стола с темами, виджетами и минималистичным дизайном.</p>
+                <div class="tags">
+                    <span class="purple">Python 3.13+</span>
+                    <span>PyQt6</span>
+                    <span>GUI</span>
                 </div>
-                <a href="https://fundreamer.itch.io/dreamer-clock" target="_blank" class="card-link">
-                    Скачать на Itch.io <i class="fa-solid fa-download"></i>
-                </a>
+                <a href="https://fundreamer.itch.io/dreamer-clock" target="_blank" class="link">Скачать →</a>
             </div>
 
         </div>
 
         <footer>
-            <p>&copy; 2026 FunDreamer. <a href="index.html">Вернуться на главную</a></p>
+            <span>&copy; 2026 FunDreamer</span>
+            <div class="socials">
+                <a href="https://t.me/FND_Squad" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                <a href="https://fundreamer.itch.io/" target="_blank"><i class="fa-brands fa-itch-io"></i></a>
+                <a href="https://boosty.to/fundreamer365" target="_blank"><i class="fa-solid fa-crown"></i></a>
+                <a href="https://www.donationalerts.com/r/fundreamer365" target="_blank"><i class="fa-solid fa-heart"></i></a>
+            </div>
         </footer>
-
     </div>
 
     <script>
-        // --- 1. FILTER LOGIC ---
-        const filterBtns = document.querySelectorAll('.filter-btn');
+        // ===== ФИЛЬТРЫ =====
+        const filters = document.querySelectorAll('.filter-btn');
         const cards = document.querySelectorAll('.project-card');
 
-        filterBtns.forEach(btn => {
+        filters.forEach(btn => {
             btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
+                filters.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
 
-                const filter = btn.getAttribute('data-filter');
+                const filter = btn.dataset.filter;
 
                 cards.forEach(card => {
-                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                    const category = card.dataset.category;
+                    if (filter === 'all' || category === filter) {
                         card.classList.remove('hidden');
-                        card.style.animation = 'none';
-                        card.offsetHeight;
-                        card.style.animation = 'fadeInUp 0.5s ease-out forwards';
                     } else {
                         card.classList.add('hidden');
                     }
                 });
             });
         });
-
-        // --- 2. PARTICLE SYSTEM ---
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        let particlesArray;
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        let mouse = { x: null, y: null, radius: 150 };
-
-        window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
-
-        class Particle {
-            constructor(x, y, dx, dy, size, color) {
-                this.x = x; this.y = y; this.dx = dx; this.dy = dy; this.size = size; this.color = color;
-            }
-            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill(); }
-            update() {
-                if (this.x > canvas.width || this.x < 0) this.dx = -this.dx;
-                if (this.y > canvas.height || this.y < 0) this.dy = -this.dy;
-                let dist = Math.sqrt((mouse.x - this.x)**2 + (mouse.y - this.y)**2);
-                if (dist < mouse.radius + this.size) {
-                    if (mouse.x < this.x && this.x < canvas.width - 10) this.x += 2;
-                    if (mouse.x > this.x && this.x > 10) this.x -= 2;
-                    if (mouse.y < this.y && this.y < canvas.height - 10) this.y += 2;
-                    if (mouse.y > this.y && this.y > 10) this.y -= 2;
-                }
-                this.x += this.dx; this.y += this.dy; this.draw();
-            }
-        }
-
-        function initParticles() {
-            particlesArray = [];
-            const colors = ['#9d4edd', '#00f3ff', '#bfbe00'];
-            const baseColor = colors[Math.floor(Math.random() * colors.length)];
-            for (let i = 0; i < (canvas.height * canvas.width) / 15000; i++) {
-                particlesArray.push(new Particle(
-                    Math.random() * canvas.width, Math.random() * canvas.height,
-                    (Math.random() - 0.5) * 0.8, (Math.random() - 0.5) * 0.8,
-                    Math.random() * 2 + 0.5, baseColor
-                ));
-            }
-        }
-
-        function animateParticles() {
-            requestAnimationFrame(animateParticles);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particlesArray.forEach(p => p.update());
-            for (let a = 0; a < particlesArray.length; a++) {
-                for (let b = a; b < particlesArray.length; b++) {
-                    let dist = ((particlesArray[a].x - particlesArray[b].x)**2) + ((particlesArray[a].y - particlesArray[b].y)**2);
-                    if (dist < (canvas.width/7) * (canvas.height/7)) {
-                        ctx.strokeStyle = `rgba(157, 78, 221, ${1 - dist/20000} * 0.1)`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        window.addEventListener('resize', () => { canvas.width = innerWidth; canvas.height = innerHeight; initParticles(); });
-        initParticles(); animateParticles();
     </script>
+
 </body>
 </html>
