@@ -3,33 +3,47 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>FunDreamer — разработчик игр и приложений</title>
+    <title>FunDreamer — Инди-разработчик</title>
     <link rel="icon" type="image/png" href="favicon.png" />
 
+    <!-- Шрифты -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700&display=swap" rel="stylesheet" />
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-main: #08090D;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(108, 92, 231, 0.5);
+            --text-main: #ededee;
+            --text-muted: #8a8a9a;
+            --accent-primary: #6c5ce7;
+            --accent-secondary: #00cec9;
+            --gradient-text: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+            --glow: 0 0 20px rgba(108, 92, 231, 0.15);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #0b0b0e;
-            color: #ededee;
+            background-color: var(--bg-main);
+            color: var(--text-main);
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            /* Фоновый декоративный элемент */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(108, 92, 231, 0.08) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 206, 201, 0.05) 0%, transparent 25%);
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
 
         .container {
             max-width: 1200px;
@@ -39,373 +53,609 @@
 
         /* ===== НАВИГАЦИЯ ===== */
         nav {
-            padding: 24px 0 16px;
+            padding: 24px 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(8, 9, 13, 0.8);
+            border-bottom: 1px solid rgba(255,255,255,0.02);
         }
 
         .logo {
             font-weight: 700;
-            font-size: 1.3rem;
-            letter-spacing: -0.3px;
-            color: #fff;
-        }
-
-        .logo span {
-            color: #6c5ce7;
-        }
-
-        .nav-links {
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
             display: flex;
-            gap: 32px;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo svg { width: 24px; height: 24px; fill: var(--accent-primary); }
+        .logo span { color: var(--text-main); }
+        .logo .highlight { color: var(--accent-primary); }
+
+        .nav-links { display: flex; gap: 32px; }
+        .nav-link {
             font-weight: 500;
             font-size: 0.95rem;
-            color: #8a8a8f;
+            color: var(--text-muted);
+            position: relative;
+            padding: 4px 0;
         }
 
-        .nav-links a {
-            transition: color 0.2s;
+        .nav-link:hover, .nav-link.active { color: var(--text-main); }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-primary);
+            border-radius: 2px;
+            box-shadow: 0 0 8px var(--accent-primary);
         }
 
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: #fff;
-        }
-
-        .nav-links a.active {
-            color: #6c5ce7;
-        }
-
-        /* ===== ГЕРОЙ ===== */
+        /* ===== HERO СЕКЦИЯ ===== */
         .hero {
-            padding: 80px 0 60px;
+            padding: 100px 0 80px;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 24px;
+            position: relative;
         }
 
         .hero-badge {
-            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 6px 16px;
+            padding: 8px 16px;
             border-radius: 100px;
-            background: rgba(108, 92, 231, 0.12);
-            color: #6c5ce7;
-            border: 1px solid rgba(108, 92, 231, 0.15);
+            background: rgba(108, 92, 231, 0.1);
+            color: #a29bfe;
+            border: 1px solid rgba(108, 92, 231, 0.2);
+            margin-bottom: 24px;
+            animation: fadeInDown 0.8s ease-out;
         }
 
         .hero h1 {
-            font-size: 4rem;
-            font-weight: 700;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
             line-height: 1.1;
-            letter-spacing: -1px;
-            max-width: 720px;
+            letter-spacing: -1.5px;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease-out 0.1s backwards;
         }
 
-        .hero h1 span {
-            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        .gradient-text {
+            background: linear-gradient(135deg, #fff 0%, #a29bfe 50%, #6c5ce7 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero p {
-            font-size: 1.2rem;
-            color: #8a8a8f;
-            max-width: 560px;
-            margin-top: 4px;
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 540px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
         }
 
         .hero-actions {
             display: flex;
             gap: 16px;
-            margin-top: 8px;
             flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.3s backwards;
         }
 
-        .btn-primary {
-            background: #6c5ce7;
-            color: #fff;
-            font-weight: 600;
-            padding: 12px 32px;
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
             border-radius: 12px;
-            transition: background 0.2s, transform 0.15s;
-            border: none;
-            cursor: pointer;
+            font-weight: 600;
             font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn svg { width: 20px; height: 20px; }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.3);
         }
 
         .btn-primary:hover {
             background: #5a4bd1;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
         }
 
         .btn-secondary {
-            background: rgba(255,255,255,0.04);
-            color: #ededee;
-            font-weight: 600;
-            padding: 12px 32px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.06);
-            transition: background 0.2s;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--border);
         }
 
         .btn-secondary:hover {
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
 
-        .hero-stats {
-            display: flex;
-            gap: 48px;
-            margin-top: 32px;
-            padding-top: 32px;
-            border-top: 1px solid rgba(255,255,255,0.04);
+        /* Декоративная SVG графика в Hero */
+        .hero-graphic {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40%;
+            height: 100%;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
         }
 
-        .hero-stats div {
-            display: flex;
-            flex-direction: column;
+        /* ===== СТАТИСТИКА ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 24px;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
         }
 
-        .hero-stats .number {
-            font-size: 1.6rem;
+        .stat-item h3 {
+            font-size: 2rem;
             font-weight: 700;
-            color: #fff;
+            color: var(--text-main);
+            margin-bottom: 4px;
         }
 
-        .hero-stats .label {
-            font-size: 0.85rem;
-            color: #8a8a8f;
+        .stat-item p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
         }
 
-        /* ===== СЕКЦИЯ ПРОЕКТОВ (НА ГЛАВНОЙ) ===== */
+        /* ===== СЕКЦИИ ===== */
+        .section-header {
+            margin-bottom: 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+        }
+
         .section-title {
             font-size: 2rem;
             font-weight: 700;
-            letter-spacing: -0.5px;
             margin-bottom: 8px;
         }
 
         .section-sub {
-            color: #8a8a8f;
-            margin-bottom: 40px;
+            color: var(--text-muted);
         }
 
-        .project-grid {
+        /* ===== КАРТОЧКИ ПРОЕКТОВ ===== */
+        .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 24px;
-            margin-bottom: 60px;
+            margin-bottom: 80px;
         }
 
-        .project-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.04);
-            border-radius: 20px;
-            padding: 28px 24px;
-            transition: background 0.25s, border-color 0.25s, transform 0.2s;
-            cursor: default;
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
-        .project-card:hover {
-            background: rgba(255,255,255,0.04);
-            border-color: rgba(255,255,255,0.08);
-            transform: translateY(-4px);
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
         }
 
-        .project-card .icon {
-            font-size: 1.8rem;
-            margin-bottom: 12px;
-            color: #6c5ce7;
+        .card:hover::before { opacity: 1; }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--border-hover);
+            box-shadow: var(--glow);
         }
 
-        .project-card h3 {
-            font-size: 1.2rem;
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--accent-primary);
+            transition: var(--transition);
+        }
+
+        .card:hover .card-icon {
+            background: var(--accent-primary);
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .card-icon svg { width: 24px; height: 24px; }
+
+        .card h3 {
+            font-size: 1.25rem;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
+            color: var(--text-main);
         }
 
-        .project-card p {
-            color: #8a8a8f;
+        .card p {
             font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            flex-grow: 1;
         }
 
-        .project-card .tag {
-            display: inline-block;
-            margin-top: 14px;
-            font-size: 0.7rem;
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .tag {
+            font-size: 0.75rem;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 4px 14px;
+            padding: 4px 12px;
             border-radius: 100px;
-            background: rgba(108, 92, 231, 0.08);
-            color: #a29bfe;
-            border: 1px solid rgba(108, 92, 231, 0.08);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .project-card .tag.gold {
-            color: #fdcb6e;
-            background: rgba(253, 203, 110, 0.06);
-            border-color: rgba(253, 203, 110, 0.08);
+        .tag.gold { color: #fdcb6e; background: rgba(253, 203, 110, 0.1); border-color: rgba(253, 203, 110, 0.2); }
+        .tag.purple { color: #a29bfe; background: rgba(108, 92, 231, 0.1); border-color: rgba(108, 92, 231, 0.2); }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            margin-top: auto;
         }
 
-        /* ===== ФУТЕР ===== */
+        .card-link svg { width: 16px; height: 16px; transition: transform 0.3s; }
+        .card:hover .card-link svg { transform: translateX(4px); }
+
+        /* ===== FOOTER ===== */
         footer {
-            padding: 40px 0 32px;
-            border-top: 1px solid rgba(255,255,255,0.04);
+            padding: 60px 0 40px;
+            border-top: 1px solid var(--border);
+            background: rgba(0,0,0,0.2);
+        }
+
+        .footer-content {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
-            gap: 16px;
-            color: #5a5a5f;
-            font-size: 0.9rem;
+            gap: 24px;
         }
 
-        footer .socials {
+        .copyright { color: var(--text-muted); font-size: 0.9rem; }
+
+        .socials { display: flex; gap: 16px; }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
             display: flex;
-            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: var(--transition);
+            border: 1px solid transparent;
         }
 
-        footer .socials a {
-            color: #5a5a5f;
-            transition: color 0.2s;
+        .social-link svg { width: 20px; height: 20px; }
+
+        .social-link:hover {
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--accent-primary);
+            border-color: rgba(108, 92, 231, 0.3);
+            transform: translateY(-3px);
         }
 
-        footer .socials a:hover {
-            color: #ededee;
+        /* ===== АНИМАЦИИ ПОЯВЛЕНИЯ ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* ===== АДАПТИВ ===== */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.6rem;
-            }
-            .nav-links {
-                gap: 20px;
-                font-size: 0.85rem;
-            }
-            .hero-stats {
-                gap: 24px;
-                flex-wrap: wrap;
-            }
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
+            .hero { padding: 60px 0; text-align: center; align-items: center; }
+            .hero-graphic { display: none; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .nav-links { gap: 20px; }
         }
 
         @media (max-width: 480px) {
-            .container {
-                padding: 0 16px;
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .btn-primary,
-            .btn-secondary {
-                width: 100%;
-                text-align: center;
-                justify-content: center;
-            }
-            .hero-actions {
-                flex-direction: column;
-                width: 100%;
-            }
+            .hero h1 { font-size: 2.2rem; }
+            .btn { width: 100%; justify-content: center; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-
-        <!-- НАВИГАЦИЯ -->
-        <nav>
-            <div class="logo">Fun<span>Dreamer</span></div>
+    <nav>
+        <div class="container" style="display: flex; justify-content: space-between; width: 100%;">
+            <a href="index.html" class="logo">
+                <!-- SVG Logo Icon -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                Fun<span class="highlight">Dreamer</span>
+            </a>
             <div class="nav-links">
-                <a href="index.html" class="active">Главная</a>
-                <a href="games.html">Проекты</a>
-            </div>
-        </nav>
-
-        <!-- ГЕРОЙ -->
-        <section class="hero">
-            <div class="hero-badge"><i class="fa-regular fa-star" style="margin-right:6px;"></i> Инди-разработчик</div>
-            <h1>Создаю игры <br><span>и приложения</span> с душой</h1>
-            <p>Unity, Python, PyQt — от хорроров до полезных утилит. Всё, что я делаю, — для людей.</p>
-            <div class="hero-actions">
-                <a href="games.html" class="btn-primary">Смотреть проекты</a>
-                <a href="https://www.twitch.tv/fundreamer365/about" target="_blank" class="btn-secondary">
-                    <i class="fa-brands fa-twitch" style="margin-right:8px;"></i> Twitch
-                </a>
-            </div>
-            <div class="hero-stats">
-                <div>
-                    <span class="number">4+</span>
-                    <span class="label">проектов</span>
-                </div>
-                <div>
-                    <span class="number">Unity</span>
-                    <span class="label">игровой движок</span>
-                </div>
-                <div>
-                    <span class="number">Python</span>
-                    <span class="label">основной стек</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- ПРОЕКТЫ НА ГЛАВНОЙ (ПРЕВЬЮ) -->
-        <h2 class="section-title">Избранное</h2>
-        <p class="section-sub">Мои лучшие работы на данный момент</p>
-
-        <div class="project-grid">
-            <div class="project-card">
-                <div class="icon"><i class="fa-solid fa-ghost"></i></div>
-                <h3>The Liminal</h3>
-                <p>Атмосферный хоррор в лиминальных пространствах. Исследование и страх.</p>
-                <span class="tag gold">★ Лучший</span>
-            </div>
-            <div class="project-card">
-                <div class="icon"><i class="fa-solid fa-globe"></i></div>
-                <h3>F Browser</h3>
-                <p>Кастомный браузер на PyQt с вкладками, парольным менеджером и стартовой страницей.</p>
-                <span class="tag">Python</span>
-            </div>
-            <div class="project-card">
-                <div class="icon"><i class="fa-solid fa-microphone-lines"></i></div>
-                <h3>Twitch TTS</h3>
-                <p>Озвучка сообщений из чата в реальном времени. Полная кастомизация.</p>
-                <span class="tag">PyQt</span>
+                <a href="index.html" class="nav-link active">Главная</a>
+                <a href="games.html" class="nav-link">Проекты</a>
             </div>
         </div>
+    </nav>
 
-        <!-- ФУТЕР с GitHub -->
-        <footer>
-            <span>&copy; 2026 FunDreamer</span>
-            <div class="socials">
-                <a href="https://github.com/fundreamer365" target="_blank" title="GitHub">
-                    <i class="fa-brands fa-github"></i>
+    <div class="container">
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                Indie Developer
+            </div>
+            
+            <h1>Создаю игры и <br><span class="gradient-text">приложения с душой</span></h1>
+            
+            <p>Unity, Python и собственные проекты — от атмосферных игр до полезных инструментов. Разрабатываю, экспериментирую и создаю новое.</p>
+            
+            <div class="hero-actions">
+                <a href="games.html" class="btn btn-primary">
+                    Смотреть проекты
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </a>
-                <a href="https://t.me/FND_Squad" target="_blank" title="Telegram">
-                    <i class="fa-brands fa-telegram"></i>
-                </a>
-                <a href="https://fundreamer.itch.io/" target="_blank" title="Itch.io">
-                    <i class="fa-brands fa-itch-io"></i>
-                </a>
-                <a href="https://boosty.to/fundreamer365" target="_blank" title="Boosty">
-                    <i class="fa-solid fa-crown"></i>
-                </a>
-                <a href="https://www.donationalerts.com/r/fundreamer365" target="_blank" title="DonationAlerts">
-                    <i class="fa-solid fa-heart"></i>
+                <a href="https://github.com/fundreamer365" target="_blank" class="btn btn-secondary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    GitHub
                 </a>
             </div>
-        </footer>
 
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>Unity</h3>
+                    <p>Game Dev</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Python</h3>
+                    <p>Automation & Apps</p>
+                </div>
+                <div class="stat-item">
+                    <h3>PyQt6</h3>
+                    <p>Desktop GUI</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Web</h3>
+                    <p>Frontend</p>
+                </div>
+            </div>
+
+            <!-- Декоративный фон -->
+            <svg class="hero-graphic" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#6c5ce7" d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.1,-19.2,95.8,-5.3C93.5,8.6,82.2,21.5,70.6,32.3C59,43.1,47.1,51.8,34.6,58.3C22.1,64.8,9,69.1,-3.2,72.3C-15.4,75.5,-26.8,77.6,-37.6,73.4C-48.4,69.2,-58.6,58.7,-66.6,46.9C-74.6,35.1,-80.4,22,-82.6,8.1C-84.8,-5.8,-83.4,-20.5,-76.3,-33.3C-69.2,-46.1,-56.4,-57,-43.2,-65.3C-30,-73.6,-16.4,-79.3,-1.9,-77.8C12.6,-76.3,28.2,-67.6,44.7,-76.4Z" transform="translate(100 100)" />
+            </svg>
+        </section>
+
+        <!-- ИЗБРАННЫЕ ПРОЕКТЫ -->
+        <section class="reveal">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Избранные проекты</h2>
+                    <p class="section-sub">Некоторые из моих лучших работ</p>
+                </div>
+                <a href="games.html" class="card-link">Все проекты <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+            </div>
+
+            <div class="projects-grid">
+                
+                <!-- OVERRIDE -->
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M12 12h.01"></path><path d="M17 12h.01"></path><path d="M7 12h.01"></path></svg>
+                    </div>
+                    <h3>OVERRIDE</h3>
+                    <p>Инди-игра в научно-фантастическом мире с роботами, атмосферой и исследованием.</p>
+                    <div class="tags">
+                        <span class="tag gold">Unity</span>
+                        <span class="tag">Sci-Fi</span>
+                    </div>
+                    <a href="https://fundreamer365.github.io/OVERRIDE" target="_blank" class="card-link">Подробнее <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                </div>
+
+                <!-- The Liminal -->
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                    </div>
+                    <h3>The Liminal</h3>
+                    <p>Атмосферный хоррор в лиминальных пространствах. Исследование, звук и страх.</p>
+                    <div class="tags">
+                        <span class="tag gold">★ Лучший</span>
+                        <span class="tag">Horror</span>
+                    </div>
+                    <a href="https://fundreamer.itch.io/the-liminal" target="_blank" class="card-link">Играть <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                </div>
+
+                <!-- NEXORA -->
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    </div>
+                    <h3>NEXORA</h3>
+                    <p>Веб-мессенджер нового поколения с экономикой, голосовыми комнатами и стилем.</p>
+                    <div class="tags">
+                        <span class="tag purple">Web</span>
+                        <span class="tag">JS</span>
+                    </div>
+                    <a href="https://fundreamer.itch.io/nexora" target="_blank" class="card-link">Открыть <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                </div>
+
+                <!-- F Browser -->
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    </div>
+                    <h3>F Browser</h3>
+                    <p>Кастомный браузер на PyQt6 с вкладками, менеджером паролей и стильным UI.</p>
+                    <div class="tags">
+                        <span class="tag purple">Python</span>
+                        <span class="tag">PyQt6</span>
+                    </div>
+                    <a href="https://fundreamer.itch.io/f-browser" target="_blank" class="card-link">Скачать <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                </div>
+
+                <!-- Better SAM -->
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                    </div>
+                    <h3>Better SAM</h3>
+                    <p>Улучшенная версия SAM с дополнительными эффектами, обработкой звука и настройками.</p>
+                    <div class="tags">
+                        <span class="tag">Audio</span>
+                        <span class="tag">Utility</span>
+                    </div>
+                    <a href="https://fundreamer365.github.io/Better-SAM" target="_blank" class="card-link">Открыть <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                </div>
+
+                <!-- Nocturne -->
+                <div class="card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </div>
+                    <h3>Nocturne</h3>
+                    <p>Атмосферный сайт для отдыха, расслабления и погружения в спокойную цифровую атмосферу.</p>
+                    <div class="tags">
+                        <span class="tag">Web</span>
+                        <span class="tag">Chill</span>
+                    </div>
+                    <a href="https://fundreamer365.github.io/Nocturne" target="_blank" class="card-link">Открыть <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                </div>
+
+            </div>
+        </section>
     </div>
 
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-content">
+            <div class="copyright">
+                &copy; 2026 FunDreamer. All rights reserved.
+            </div>
+            <div class="socials">
+                <a href="https://github.com/fundreamer365" target="_blank" class="social-link" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                </a>
+                <a href="https://t.me/FND_Squad" target="_blank" class="social-link" aria-label="Telegram">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </a>
+                <a href="https://fundreamer.itch.io/" target="_blank" class="social-link" aria-label="Itch.io">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </a>
+                <a href="https://boosty.to/fundreamer365" target="_blank" class="social-link" aria-label="Boosty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                </a>
+                <a href="https://www.donationalerts.com/r/fundreamer365" target="_blank" class="social-link" aria-label="DonationAlerts">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Эффект свечения карточек при движении мыши
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Анимация появления при скролле
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
