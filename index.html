@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FunDreamer — Инди-разработчик</title>
+<meta name="description" content="Игры, приложения и эксперименты от FunDreamer: Unity, Python, Web.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="wrap">
+<div class="hero">
+  <div>
+    <div class="badge"><i></i>Открыт к новым идеям</div>
+    <h1>Мечтаю в коде.<br><span class="grad">Строю миры.</span></h1>
+    <div class="type">Делаю <span id="typed"></span><u></u></div>
+    <p class="lead">Unity, Python и веб. От хорроров, в которых страшно выключить свет, до тулз, которыми пользуются стримеры.</p>
+    <div class="btns">
+      <a href="games.html" class="btn pri">Смотреть проекты →</a>
+      <a href="https://fundreamer.itch.io/" target="_blank" class="btn sec">Мой itch.io</a>
+    </div>
+  </div>
+  <div class="term">
+    <header><i></i><i></i><i></i><span>fundreamer ~ zsh</span></header>
+    <pre><span class="pr">❯</span> whoami
+<span class="v">FunDreamer</span> — indie developer
+<span class="pr">❯</span> stack --list
+<span class="k">Unity</span>  <span class="k">Python</span>  <span class="k">PyQt6</span>  <span class="k">JS</span>
+<span class="pr">❯</span> status
+<span class="ok">●</span> делаю новую игру
+<span class="pr">❯</span> <u style="display:inline-block;width:8px;height:1em;background:var(--c);vertical-align:-3px;animation:bl 1s steps(1) infinite"></u></pre>
+  </div>
+</div>
+</main>
+<div class="marq"><div id="mq"></div></div>
+<main class="wrap">
+<section id="projects">
+  <div class="sh"><div><h2>Избранные проекты</h2><p>Наведи на карточку, она живая.</p></div><a href="games.html" class="more">Все проекты →</a></div>
+  <div class="grid" id="grid" data-limit="6"></div>
+</section>
+<section>
+  <div class="sh"><div><h2>Чем я занимаюсь</h2><p>Коротко о главном.</p></div></div>
+  <div class="bento">
+    <div class="bx w2 hl"><span class="em">🎮</span><h3>Игры, которые держат атмосферой</h3><p>Свет, звук и пустые коридоры. Люблю, когда игрок сам додумывает страшное.</p></div>
+    <div class="bx"><div class="big" data-n="P">0</div><h3>проектов</h3><p>и каждый с историей</p></div>
+    <div class="bx"><div class="big" data-n="4">0</div><h3>технологии</h3><p>Unity, Python, PyQt6, Web</p></div>
+    <div class="bx"><span class="em">🛠️</span><h3>Тулзы</h3><p>Браузер, часы и озвучка чата Twitch.</p></div>
+    <div class="bx w2"><span class="em">🌐</span><h3>Веб-эксперименты</h3><p>Мессенджер с экономикой, ламповые сайты и аудио-утилиты прямо в браузере.</p></div>
+  </div>
+</section>
+<section id="contact">
+  <div class="cta">
+    <h2><span class="grad">Давай сделаем что-то крутое</span></h2>
+    <p>Есть идея, фидбэк или хочешь следить за новыми релизами? Залетай в Telegram.</p>
+    <div class="btns"><a href="https://t.me/FND_Squad" target="_blank" class="btn pri">Telegram</a><a href="https://boosty.to/fundreamer365" target="_blank" class="btn sec">Поддержать на Boosty</a></div>
+  </div>
+</section>
+</main>
+<script>document.getElementById('mq').innerHTML=[...Array(2)].map(()=>['Unity','Python','PyQt6','JavaScript','Horror','Sci-Fi','Web','Audio'].map(t=>`<span>${t}</span>`).join('')).join('')</script>
+<script src="main.js"></script>
+</body>
+</html>
